@@ -7,7 +7,7 @@ import com.tradeview.stock.model.StockData;
 
 import java.util.List;
 
-public class HighVolBreakCalculator implements Calculator {
+public class HighVolBreakCalculator extends AbstractCalculator {
 	
 	private StockData todayStock;
 	private List<StockData> chartStocks;
@@ -50,27 +50,6 @@ public class HighVolBreakCalculator implements Calculator {
 				&& (tclose > topen)
 				&& (calcHighShallowRate(topen, thigh, tclose) < Param.TODAY_HIGH_SHADOW_REATE)
 				&& (calcRedKRate(topen, tclose) > Param.TODAY_RED_K_RATE);
-	}
-	
-	private double calcRate(double higher, double lower) {
-		return (higher - lower)/lower;
-	}
-
-	private double calcRedKRate(double tOpen, double tClose) {
-		return (tClose-tOpen)/tOpen;
-	}
-
-	private double calcHighShallowRate(double topen, double thigh, double tclose) {
-		double t1;
-		double t2;
-		if(tclose > topen) {
-			t1 = thigh - tclose;
-			t2 = tclose - topen;
-		} else {
-			t1 = thigh - topen;
-			t2 = topen - tclose;
-		}
-		return t1/(t1+t2);
 	}
 	
 	private boolean matchVol() {
