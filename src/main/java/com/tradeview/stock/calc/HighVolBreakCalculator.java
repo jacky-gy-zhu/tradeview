@@ -22,7 +22,9 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 				// 今日收盘价大于60日内的最高点（但不超过2%），并且红K（超过4%），并且上影线很小
 				matchTodayK() &&
 				// 60日内（除了今日）的最大量那天是平均量的2倍以上，并且那天的最高点距离今日不超过5%
-				matchVol();
+				matchVol() &&
+				// 均线多头向上排列，收盘价站上MA5
+				matchMa();
 	}
 	
 	private boolean matchTodayK() {
@@ -62,18 +64,18 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 
 		int totalVol = 0;
 		double totalAmount = 0;
-		String topVolDate = null;
+//		String topVolDate = null;
 		for(int i = 0; i < chartStocks.size(); i++) {
 			StockData stockData = chartStocks.get(i);
 			double thigh = stockData.gettHigh();
 			double tclose = stockData.getTclose();
 			int vol = stockData.getVolume();
-			String date = stockData.getDate();
+//			String date = stockData.getDate();
 			
 			if(vol > topVol) {
 				topVol = vol;
 				highOfTopVol = thigh;
-				topVolDate = date;
+//				topVolDate = date;
 			}
 			
 			totalVol += vol;
@@ -89,6 +91,35 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 
 		return topVol > avgVol*Param.HUGE_VOL_RATE &&
 				(calcRate(todayStock.getTclose(), highOfTopVol) < Param.HUGE_VOL_PRICE_TO_TODAY_GAP_RATE);
+	}
+
+	private boolean matchMa() {
+		// 今日
+		int indexTdy = 0;
+		StockData stockData = chartStocks.get(indexTdy);
+		double tclose = stockData.getTclose();
+		double ma5 = calcMa(5, chartStocks, indexTdy);
+		double ma10 = calcMa(10, chartStocks, indexTdy);
+		double ma20 = calcMa(20, chartStocks, indexTdy);
+		double ma30 = calcMa(30, chartStocks, indexTdy);
+
+		// 昨日
+		int indexYst = 1;
+		StockData _stockData = chartStocks.get(indexYst);
+		double _tclose = _stockData.getTclose();
+		double _ma5 = calcMa(5, chartStocks, indexYst);
+		double _ma10 = calcMa(10, chartStocks, indexYst);
+		double _ma20 = calcMa(20, chartStocks, indexYst);
+		double _ma30 = calcMa(30, chartStocks, indexYst);
+
+		return tclose > ma5 &&
+				ma5 > ma10 &&
+				ma10 > ma20 &&
+				ma20 > ma30 &&
+				ma5 >= _ma5 &&
+				ma10 >= _ma10 &&
+				ma20 >= _ma20 &&
+				ma30 >= _ma30;
 	}
 
 }

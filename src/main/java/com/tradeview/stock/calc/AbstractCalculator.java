@@ -1,5 +1,9 @@
 package com.tradeview.stock.calc;
 
+import com.tradeview.stock.model.StockData;
+
+import java.util.List;
+
 public abstract class AbstractCalculator implements Calculator {
 
     /**
@@ -41,5 +45,28 @@ public abstract class AbstractCalculator implements Calculator {
         }
         return t1/(t1+t2);
     }
+
+    /**
+     * 计算均线
+     * @param ma
+     * @param stockList
+     * @param index
+     * @return
+     */
+    protected double calcMa(int ma, List<StockData> stockList, int index) {
+        if (stockList != null && stockList.size() > (ma + index)) {
+            double total = 0;
+            for (int i = 0; i < ma; i++) {
+                int k = index + i;
+                if (k < stockList.size()) {
+                    total += stockList.get(k).getTclose();
+                }
+            }
+            return total / ma;
+        } else {
+            return 0;
+        }
+    }
+
 
 }
