@@ -23,7 +23,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 				matchTodayK() &&
 				// 60日内（除了今日）的最大量那天是平均量的2倍以上，并且那天的最高点距离今日不超过5%
 				matchVol() &&
-				// 均线多头向上排列，收盘价站上MA5
+				// 均线多头向上排列，粘合，收盘价站上MA5
 				matchMa();
 	}
 	
@@ -96,18 +96,17 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 	private boolean matchMa() {
 		// 今日
 		double tclose = todayStock.getTclose();
-		int indexTdy = 0;
-		double ma5 = calcMa(5, chartStocks, indexTdy);
-		double ma10 = calcMa(10, chartStocks, indexTdy);
-		double ma20 = calcMa(20, chartStocks, indexTdy);
-		double ma30 = calcMa(30, chartStocks, indexTdy);
+		int index = 0;
+		double ma5 = (calcMa(4, chartStocks, index)*4+tclose)/5;
+		double ma10 = (calcMa(9, chartStocks, index)*9+tclose)/10;
+		double ma20 = (calcMa(19, chartStocks, index)*19+tclose)/20;
+		double ma30 = (calcMa(29, chartStocks, index)*29+tclose)/30;
 
 		// 昨日
-		int indexYst = 1;
-		double _ma5 = calcMa(5, chartStocks, indexYst);
-		double _ma10 = calcMa(10, chartStocks, indexYst);
-		double _ma20 = calcMa(20, chartStocks, indexYst);
-		double _ma30 = calcMa(30, chartStocks, indexYst);
+		double _ma5 = calcMa(5, chartStocks, index);
+		double _ma10 = calcMa(10, chartStocks, index);
+		double _ma20 = calcMa(20, chartStocks, index);
+		double _ma30 = calcMa(30, chartStocks, index);
 
 		return tclose > ma5 &&
 				ma5 > ma10 &&
@@ -116,7 +115,8 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 //				ma5 >= _ma5 &&
 				ma10 >= _ma10 &&
 				ma20 >= _ma20 &&
-				ma30 >= _ma30;
+				ma30 >= _ma30 &&
+				calcRate(ma5, ma20) < Param.MA5_MA20_GAP_RATE;
 	}
 
 }
