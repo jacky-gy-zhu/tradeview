@@ -31,7 +31,7 @@ public class StockChart {
             firstIndex += Param.T_PLUS;
             int index = 0;
             for (int i = firstIndex; i < chart.length(); i++) {
-                if (index > Param.MONTH_PERIOD * 22) {
+                if (index > (Param.MONTH_PERIOD * 22 + 30)) {
                     break;
                 }
                 JSONObject obj = chart.getJSONObject(i);
@@ -91,7 +91,7 @@ public class StockChart {
 			firstIndex += Param.T_PLUS;
 			int index = 0;
 			for (int i = firstIndex; i < chart.length(); i++) {
-                if (index > Param.MONTH_PERIOD * 22) {
+                if (index > (Param.MONTH_PERIOD * 22 + 30)) {
                     break;
                 }
 				JSONObject obj = chart.getJSONObject(i);

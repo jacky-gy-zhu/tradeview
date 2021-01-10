@@ -116,7 +116,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 				ma10 >= _ma10 &&
 				ma20 >= _ma20 &&
 				ma30 >= _ma30 &&
-				calcRate(ma5, ma20) < Param.MA5_MA20_GAP_RATE;
+				calcRate(ma5, ma30) < Param.MA5_MA30_GAP_RATE;
 	}
 
 }
