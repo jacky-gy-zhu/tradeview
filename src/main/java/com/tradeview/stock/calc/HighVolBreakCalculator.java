@@ -95,9 +95,8 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 
 	private boolean matchMa() {
 		// 今日
+		double tclose = todayStock.getTclose();
 		int indexTdy = 0;
-		StockData stockData = chartStocks.get(indexTdy);
-		double tclose = stockData.getTclose();
 		double ma5 = calcMa(5, chartStocks, indexTdy);
 		double ma10 = calcMa(10, chartStocks, indexTdy);
 		double ma20 = calcMa(20, chartStocks, indexTdy);
@@ -105,8 +104,6 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 
 		// 昨日
 		int indexYst = 1;
-		StockData _stockData = chartStocks.get(indexYst);
-		double _tclose = _stockData.getTclose();
 		double _ma5 = calcMa(5, chartStocks, indexYst);
 		double _ma10 = calcMa(10, chartStocks, indexYst);
 		double _ma20 = calcMa(20, chartStocks, indexYst);
@@ -116,7 +113,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 				ma5 > ma10 &&
 				ma10 > ma20 &&
 				ma20 > ma30 &&
-				ma5 >= _ma5 &&
+//				ma5 >= _ma5 &&
 				ma10 >= _ma10 &&
 				ma20 >= _ma20 &&
 				ma30 >= _ma30;

@@ -15,10 +15,10 @@ public class Param {
 	public static float EXCEED_RATE = 0.05f;
 	
 	// 今日的上影线不能过长
-	public static float TODAY_HIGH_SHADOW_REATE = 0.2f;
+	public static float TODAY_HIGH_SHADOW_REATE = 0.3f;
 
-	// 今日红K（超过4%）
-	public static float TODAY_RED_K_RATE = 0.04f;
+	// 今日红K（超过3%）
+	public static float TODAY_RED_K_RATE = 0.03f;
 
 	// 最大量是平均量的倍数（2倍）
 	public static float HUGE_VOL_RATE = 2f;
