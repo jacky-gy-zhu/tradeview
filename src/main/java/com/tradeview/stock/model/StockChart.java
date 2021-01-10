@@ -25,8 +25,8 @@ public class StockChart {
         // chart
         this.chartStocks = new ArrayList();
         if (chart.length() > 0) {
-            JSONObject latestObj = chart.getJSONObject(0);
-            String date = latestObj.getString("date");
+//            JSONObject latestObj = chart.getJSONObject(0);
+//            String date = latestObj.getString("date");
             int firstIndex = 1;
             firstIndex += Param.T_PLUS;
             int index = 0;
@@ -44,6 +44,7 @@ public class StockChart {
             if (Param.T_PLUS > 0) {
                 JSONObject quoteFormer = chart.getJSONObject(firstIndex - 1);
                 this.stockData = convertStockDataFromJsonObject(quoteFormer);
+                this.latestDate = quoteFormer.getString("date");
                 try {
                     JSONObject quoteFormer2 = chart.getJSONObject(firstIndex - 2);
                     this.stockData.setLclose(quoteFormer2.getDouble("close"));

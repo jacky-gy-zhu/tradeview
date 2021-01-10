@@ -1,6 +1,7 @@
 package com.tradeview.stock.service;
 
 import com.tradeview.stock.config.Constants;
+import com.tradeview.stock.config.Param;
 import com.tradeview.stock.model.StockChart;
 import com.tradeview.stock.util.StreamUtils;
 
@@ -36,6 +37,9 @@ public class ScanJob {
                 List<StockChart> stockList = Iextrading.getInstance().findUSStockForHighVol(codeArr, excludeList, isTest);
                 if(stockList != null) {
                     for(StockChart stock : stockList) {
+                        if (Param.T_PLUS > 0) {
+                            System.out.print(stock.getLatestDate() + " : ");
+                        }
                         System.out.println(stock.getSymbol() + " - " + stock.getCompanyName());
                     }
                 }
