@@ -26,7 +26,9 @@ public class Param {
 	// 最大量的最高点距离今日不超过10%
 	public static float HUGE_VOL_PRICE_TO_TODAY_GAP_RATE = 0.1f;
 
-	// 均线粘合（MA5和MA30差距小于3%）
-	public static float MA5_MA30_GAP_RATE = 0.03f;
+	// 均线粘合（MA5和其他均线的差距比例）
+	public static float MA5_MA30_GAP_RATE = 0.1f;
+	public static float MA5_MA20_GAP_RATE = 0.05f;
+	public static float MA5_MA10_GAP_RATE = 0.02f;
 
 }
