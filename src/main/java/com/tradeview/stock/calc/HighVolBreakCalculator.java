@@ -16,7 +16,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 	
 	public boolean match(StockResult stockResult) {
 		return
-				// 今日收盘价大于60日内的最高点（但不超过2%），并且红K（超过4%），并且上影线很小
+				// 今日收盘价大于60日内的最高点（但不超过5%），并且红K（超过4%），并且上影线很小
 				matchTodayK() &&
 				// 60日内（除了今日）的最大量那天是平均量的2倍以上，今日收盘不得超过之前高点3%
 				matchVol() &&
