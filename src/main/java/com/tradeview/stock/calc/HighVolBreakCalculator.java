@@ -46,7 +46,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		
 		return (tclose > topPrice && calcRate(tclose, topPrice) < Param.EXCEED_RATE)
 				&& (tclose > topen)
-				&& (calcHighShallowRate(topen, thigh, tclose) < Param.TODAY_HIGH_SHADOW_REATE)
+				&& (calcHighShallowRate(topen, thigh, tclose) < Param.TODAY_HIGH_SHADOW_RATE)
 				&& (calcRedKRate(topen, tclose) > Param.TODAY_RED_K_RATE);
 	}
 	
