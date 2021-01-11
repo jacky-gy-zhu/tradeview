@@ -8,7 +8,7 @@ import com.tradeview.stock.model.StockData;
 import java.util.List;
 
 public class HighVolBreakCalculator extends AbstractCalculator {
-	
+
 	private StockData todayStock;
 	private List<StockData> chartStocks;
 	
@@ -121,4 +121,8 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 				calcRate(ma5, ma10) < Param.MA5_MA10_GAP_RATE;
 	}
 
+	@Override
+	public String getName() {
+		return "盘整突破";
+	}
 }

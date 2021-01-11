@@ -2,12 +2,15 @@ package com.tradeview.stock.service;
 
 import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
+import com.tradeview.stock.model.ResultReport;
 import com.tradeview.stock.model.StockChart;
+import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.util.StreamUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ScanJob {
 
@@ -34,13 +37,23 @@ public class ScanJob {
             excludeList.addAll(excludeCodeList);
             excludeList.addAll(excludeSmallVolCodeList);
             if(codeArr != null) {
-                List<StockChart> stockList = Iextrading.getInstance().findUSStockForHighVol(codeArr, excludeList, isTest);
-                if(stockList != null) {
-                    for(StockChart stock : stockList) {
-                        if (Param.T_PLUS > 0) {
-                            System.out.print(stock.getLatestDate() + " : ");
+                ResultReport resultReport = Iextrading.getInstance().findUSStockForHighVol(codeArr, excludeList);
+                if(resultReport != null) {
+                    Map<String, List<StockResult>> resultMap =  resultReport.getResultMap();
+                    for (Map.Entry<String, List<StockResult>> entry : resultMap.entrySet()) {
+                        String strategy = entry.getKey();
+                        List<StockResult> stockResults = entry.getValue();
+                        System.out.println(strategy + " (" + stockResults.size() + ")");
+                        for(StockResult stock : stockResults) {
+                            if (Param.T_PLUS > 0) {
+                                System.out.print(stock.getDate() + " : ");
+                            }
+                            System.out.print(stock.getSymbol());
+                            if (Param.T_PLUS == 0) {
+                                System.out.print(" - " + stock.getName());
+                            }
+                            System.out.println();
                         }
-                        System.out.println(stock.getSymbol() + " - " + stock.getCompanyName());
                     }
                 }
             }

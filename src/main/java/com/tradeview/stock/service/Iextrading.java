@@ -5,7 +5,9 @@ import com.tradeview.stock.calc.Calculator;
 import com.tradeview.stock.calc.HighVolBreakCalculator;
 import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
+import com.tradeview.stock.model.ResultReport;
 import com.tradeview.stock.model.StockChart;
+import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.util.ConnectionUtil;
 import com.tradeview.stock.util.StreamUtils;
 import org.json.JSONArray;
@@ -36,12 +38,15 @@ public class Iextrading {
         return instance;  
     }
 
-	public List<StockChart> findUSStockForHighVol(String[] codeArr, List<String> excludeCodeList, boolean isTest) {
+	public ResultReport findUSStockForHighVol(String[] codeArr, List<String> excludeCodeList) {
+
+		ResultReport resultReport = new ResultReport();
+		Map<String, List<StockResult>> resultMap = new HashMap<>();
+		resultReport.setResultMap(resultMap);
 		if(codeArr != null) {
 			List<StockChart> result = new ArrayList();
 			List<String> urlList = getAvailableUrlList(codeArr, excludeCodeList);
 			int count = 0;
-			int countMatch = 0;
 			System.out.println();
 			for(String symbolGroupStr : urlList) {
 				System.out.print(".");
@@ -68,8 +73,13 @@ public class Iextrading {
 										}
 										Calculator calculator = new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks());
 										if(calculator.match()) {
-											result.add(stockChart);
-											countMatch++;
+											StockResult stockResult = new StockResult();
+											stockResult.setDate(stockChart.getLatestDate());
+											stockResult.setSymbol(symbol);
+											stockResult.setName(stockChart.getCompanyName());
+
+											resultMap.computeIfAbsent(calculator.getName(), o -> new ArrayList<>());
+											resultMap.get(calculator.getName()).add(stockResult);
 										}
 
 										count++;
@@ -94,8 +104,13 @@ public class Iextrading {
 									}
 									Calculator calculator = new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks());
 									if(calculator.match()) {
-										result.add(stockChart);
-										countMatch++;
+										StockResult stockResult = new StockResult();
+										stockResult.setDate(stockChart.getLatestDate());
+										stockResult.setSymbol(symbol);
+										stockResult.setName(stockChart.getCompanyName());
+
+										resultMap.computeIfAbsent(calculator.getName(), o -> new ArrayList<>());
+										resultMap.get(calculator.getName()).add(stockResult);
 									}
 
 									count++;
@@ -112,17 +127,11 @@ public class Iextrading {
 				}
 			}
 			System.out.println();
-			System.out.println("count="+count);
-			System.out.println("countMatch="+countMatch);
+			System.out.println("总共扫描个股数量："+count);
 			System.out.println();
-			if(result.size() > 0) {
-				return result;
-			}else {
-				return null;
-			}
-		}else {
-			return null;
 		}
+
+		return resultReport;
 	}
 
 	private int calcLastFromToday(String symbolGroupStr) {
