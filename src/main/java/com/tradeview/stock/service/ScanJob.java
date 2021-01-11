@@ -52,6 +52,9 @@ public class ScanJob {
                             if (stock.getName() != null && stock.getName().length() > 0) {
                                 System.out.print(" - " + stock.getName());
                             }
+                            if (stock.getRate() != null) {
+                                System.out.print(" (" + (float)((int)(stock.getRate()*100))/100f + ") ");
+                            }
                             System.out.println();
                         }
                     }

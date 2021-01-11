@@ -123,8 +123,8 @@ public class Iextrading {
 	}
 
 	private void handleResultMap(Map<String, List<StockResult>> resultMap, String symbol, StockChart stockChart, Calculator calculator) {
-		if (calculator.match()) {
-			StockResult stockResult = new StockResult();
+		StockResult stockResult = new StockResult();
+		if (calculator.match(stockResult)) {
 			stockResult.setDate(stockChart.getLatestDate());
 			stockResult.setSymbol(symbol);
 			stockResult.setName(stockChart.getCompanyName());

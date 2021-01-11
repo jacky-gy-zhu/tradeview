@@ -4,6 +4,7 @@ package com.tradeview.stock.calc;
 import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
 import com.tradeview.stock.model.StockData;
+import com.tradeview.stock.model.StockResult;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		super(todayStock, chartStocks);
 	}
 	
-	public boolean match() {
+	public boolean match(StockResult stockResult) {
 		return
 				// 今日收盘价大于60日内的最高点（但不超过2%），并且红K（超过4%），并且上影线很小
 				matchTodayK() &&

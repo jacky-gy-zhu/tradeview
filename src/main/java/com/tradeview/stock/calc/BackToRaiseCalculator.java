@@ -2,6 +2,7 @@ package com.tradeview.stock.calc;
 
 import com.tradeview.stock.config.Param;
 import com.tradeview.stock.model.StockData;
+import com.tradeview.stock.model.StockResult;
 
 import java.util.List;
 
@@ -11,15 +12,15 @@ public class BackToRaiseCalculator extends AbstractCalculator {
         super(todayStock, chartStocks);
     }
 
-    public boolean match() {
+    public boolean match(StockResult stockResult) {
         return
 				// 均线多头向上排列，粘合，收盘价站上MA5
 				matchMa() &&
 				// 股价和MA5形成N字型向上
-				matchNUpForm();
+				matchNUpForm(stockResult);
     }
 
-	private boolean matchNUpForm() {
+	private boolean matchNUpForm(StockResult stockResult) {
     	int step = 0;
     	double x = 0;
     	double y = 0;
@@ -66,7 +67,11 @@ public class BackToRaiseCalculator extends AbstractCalculator {
 				}
 				if (step == 3) {
 					double rate = (y - z) / (y - x);
-					return rate >= Param.N_BACK_BODY_MIN_RATE && rate <= Param.N_BACK_BODY_MAX_RATE;
+					boolean success = rate >= Param.N_BACK_BODY_MIN_RATE && rate <= Param.N_BACK_BODY_MAX_RATE;
+					if (success) {
+						stockResult.setRate(rate);
+					}
+					return success;
 				}
 			}
 

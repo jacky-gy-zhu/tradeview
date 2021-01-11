@@ -6,6 +6,8 @@ public class StockResult {
     private String symbol;
     private String name;
 
+    private Double rate;
+
     public String getDate() {
         return date;
     }
@@ -28,5 +30,13 @@ public class StockResult {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 }
