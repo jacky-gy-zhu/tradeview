@@ -18,6 +18,10 @@ public class BackToRaiseCalculator extends AbstractCalculator {
     }
 
 	private boolean matchRedK() {
+		if (true) {
+			return false;
+		}
+
 		// 今日收盘价
 		double tclose = todayStock.getTclose();
 
@@ -40,13 +44,12 @@ public class BackToRaiseCalculator extends AbstractCalculator {
 		// 昨日MA5
 		double _ma5 = calcMa(5, 0);
 
-//		return (tclose > yHigh) &&
-//				(tclose > topen) &&
-//				(tclose > ma5) &&
-//				(yopen > yclose) &&
-//				(yclose < _ma5) &&
-//				(ma5 >= _ma5);
-		return false;
+		return (tclose > yHigh) &&
+				(tclose > topen) &&
+				(tclose > ma5) &&
+				(yopen > yclose) &&
+				(yclose < _ma5) &&
+				(ma5 >= _ma5);
 	}
 
 
