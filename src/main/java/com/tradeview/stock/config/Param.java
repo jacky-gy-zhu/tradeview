@@ -39,7 +39,9 @@ public class Param {
 	// N字型走势回调最小幅度(MA5)
 	public static float N_BACK_MA5_MIN_RATE = 0.01f;
 	// N字型走势回调比例最大值
-	public static float N_BACK_BODY_MAX_RATE = 0.5f;
+	public static float N_BACK_BODY_MAX_RATE = 0.36f;
 	// N字型走势回调比例最小值
 	public static float N_BACK_BODY_MIN_RATE = 0.22f;
+	// 调整时间最大值
+	public static int N_BACK_MIN_DAYS = 7;
 }

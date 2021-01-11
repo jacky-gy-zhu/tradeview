@@ -45,6 +45,10 @@ public class BackToRaiseCalculator extends AbstractCalculator {
 							// 当前走势已经在相对高位
 							return false;
 						}
+						if (highIndex > Param.N_BACK_MIN_DAYS) {
+							// 调整时间过长
+							return false;
+						}
 					}
 				}
 				if (step == 1) {
@@ -92,7 +96,15 @@ public class BackToRaiseCalculator extends AbstractCalculator {
 		double ma20 = calcTodayMa(20, tclose);
 		double ma30 = calcTodayMa(30, tclose);
 
-		return tclose > ma5 &&
+		// 昨日
+		double _ma5 = calcMa(5, 0);
+
+		return
+				tclose > ma5 &&
+				ma5 > _ma5 &&
+//				tclose > ma10 &&
+//				tclose > ma20 &&
+				tclose > ma30 &&
 				calcRate(ma5, ma30) < Param.MA5_MA30_GAP_RATE &&
 				calcRate(ma5, ma20) < Param.MA5_MA20_GAP_RATE &&
 				calcRate(ma5, ma10) < Param.MA5_MA10_GAP_RATE;
