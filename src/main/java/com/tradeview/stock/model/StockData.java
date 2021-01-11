@@ -6,7 +6,7 @@ public class StockData {
 	private double lclose;
 	private double topen;
 	private double tclose;
-	private double tHigh;
+	private double thigh;
 	private double tlow;
 	private int volume;
 
@@ -36,11 +36,11 @@ public class StockData {
 	public void setTclose(double tclose) {
 		this.tclose = tclose;
 	}
-	public double gettHigh() {
-		return tHigh;
+	public double getThigh() {
+		return thigh;
 	}
-	public void settHigh(double tHigh) {
-		this.tHigh = tHigh;
+	public void setThigh(double thigh) {
+		this.thigh = thigh;
 	}
 	public double getTlow() {
 		return tlow;

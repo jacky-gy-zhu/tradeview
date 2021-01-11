@@ -49,7 +49,7 @@ public class ScanJob {
                                 System.out.print(stock.getDate() + " : ");
                             }
                             System.out.print(stock.getSymbol());
-                            if (Param.T_PLUS == 0) {
+                            if (stock.getName() != null && stock.getName().length() > 0) {
                                 System.out.print(" - " + stock.getName());
                             }
                             System.out.println();

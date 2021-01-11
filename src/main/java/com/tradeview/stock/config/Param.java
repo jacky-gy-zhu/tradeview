@@ -34,4 +34,12 @@ public class Param {
 	public static float MA5_MA20_GAP_RATE = 0.1f;
 	public static float MA5_MA10_GAP_RATE = 0.02f;
 
+	// N字型走势回调最小幅度(最高点，最低点)
+	public static float N_BACK_HIGH_LOW_MIN_RATE = 0.1f;
+	// N字型走势回调最小幅度(MA5)
+	public static float N_BACK_MA5_MIN_RATE = 0.01f;
+	// N字型走势回调比例最大值
+	public static float N_BACK_BODY_MAX_RATE = 0.5f;
+	// N字型走势回调比例最小值
+	public static float N_BACK_BODY_MIN_RATE = 0.22f;
 }

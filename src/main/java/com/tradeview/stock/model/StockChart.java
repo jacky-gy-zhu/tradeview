@@ -136,7 +136,7 @@ public class StockChart {
     private StockData convertStockDataFromJsonObject(JSONObject obj) {
         StockData stockData = new StockData();
         stockData.setTclose(obj.getDouble("close"));
-        stockData.settHigh(obj.getDouble("high"));
+        stockData.setThigh(obj.getDouble("high"));
         stockData.setTlow(obj.getDouble("low"));
         stockData.setTopen(obj.getDouble("open"));
         stockData.setVolume(obj.getInt("volume"));

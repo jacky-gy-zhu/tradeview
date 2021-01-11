@@ -31,7 +31,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		double topPrice = 0;
 		for(int i = 0; i < chartStocks.size(); i++) {
 			StockData stockData = chartStocks.get(i);
-			double high = stockData.gettHigh();
+			double high = stockData.getThigh();
 			
 			if(high > topPrice) {
 				topPrice = high;
@@ -42,7 +42,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		double topen = todayStock.getTopen();
 		
 		// 今日最高价，今日上影线很小
-		double thigh = todayStock.gettHigh();
+		double thigh = todayStock.getThigh();
 		
 		return (tclose > topPrice && calcRate(tclose, topPrice) < Param.EXCEED_RATE)
 				&& (tclose > topen)
@@ -65,7 +65,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		String topPriceDate = null;
 		for(int i = 0; i < chartStocks.size(); i++) {
 			StockData stockData = chartStocks.get(i);
-			double thigh = stockData.gettHigh();
+			double thigh = stockData.getThigh();
 			double tclose = stockData.getTclose();
 			int vol = stockData.getVolume();
 			String date = stockData.getDate();
@@ -98,7 +98,8 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 				(calcRate(todayStock.getTclose(), highOfTopPrice) < Param.BREAK_EXCEED_RATE);
 	}
 
-	private boolean matchMa() {
+	// 均线多头向上排列，粘合，收盘价站上MA5
+	protected boolean matchMa() {
 		// 今日
 		double tclose = todayStock.getTclose();
 		int index = 0;
