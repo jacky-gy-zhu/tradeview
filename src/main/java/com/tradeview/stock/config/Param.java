@@ -9,7 +9,7 @@ public class Param {
 	public static float AVG_AMOUNT_VOL_TOLERANCE = 500 * 10000;
 	
 	// 计算周期
-	public static int MONTH_PERIOD = 1;
+	public static int MONTH_PERIOD = 2;
 	
 	// 今日收盘价大于60日内的最高点（但不超过5%）
 	public static float EXCEED_RATE = 0.05f;
@@ -23,8 +23,11 @@ public class Param {
 	// 最大量是平均量的倍数（2倍）
 	public static float HUGE_VOL_RATE = 2f;
 
-	// 最大量的最高点距离今日不超过10%
-	public static float HUGE_VOL_PRICE_TO_TODAY_GAP_RATE = 0.1f;
+	// 今日涨幅
+	public static float TODAY_UP_RATE = 0.03f;
+
+	// 突破涨幅不得超过（5%）
+	public static float BREAK_EXCEED_RATE = 0.05f;
 
 	// 均线粘合（MA5和其他均线的差距比例）
 	public static float MA5_MA30_GAP_RATE = 0.2f;

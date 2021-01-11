@@ -6,6 +6,14 @@ import java.util.List;
 
 public abstract class AbstractCalculator implements Calculator {
 
+    protected StockData todayStock;
+    protected List<StockData> chartStocks;
+
+    public AbstractCalculator(StockData todayStock, List<StockData> chartStocks) {
+        this.todayStock = todayStock;
+        this.chartStocks = chartStocks;
+    }
+
     /**
      * 计算2个位置的涨幅
      * @param higher
@@ -53,19 +61,30 @@ public abstract class AbstractCalculator implements Calculator {
      * @param index
      * @return
      */
-    protected double calcMa(int ma, List<StockData> stockList, int index) {
-        if (stockList != null && stockList.size() > (ma + index)) {
+    protected double calcMa(int ma, int index) {
+        if (chartStocks != null && chartStocks.size() > (ma + index)) {
             double total = 0;
             for (int i = 0; i < ma; i++) {
                 int k = index + i;
-                if (k < stockList.size()) {
-                    total += stockList.get(k).getTclose();
+                if (k < chartStocks.size()) {
+                    total += chartStocks.get(k).getTclose();
                 }
             }
             return total / ma;
         } else {
             return 0;
         }
+    }
+
+    /**
+     * 计算今日均线
+     * @param ma
+     * @param tclose
+     * @return
+     */
+    protected double calcTodayMa(int ma, double tclose) {
+        int index = 0;
+        return (calcMa((ma-1), index)*(ma-1)+tclose)/ma;
     }
 
 

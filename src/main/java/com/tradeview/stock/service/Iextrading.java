@@ -1,6 +1,7 @@
 package com.tradeview.stock.service;
 
 import com.tradeview.stock.api.Iexapis;
+import com.tradeview.stock.calc.BackToRaiseCalculator;
 import com.tradeview.stock.calc.Calculator;
 import com.tradeview.stock.calc.HighVolBreakCalculator;
 import com.tradeview.stock.config.Constants;
@@ -13,7 +14,6 @@ import com.tradeview.stock.util.StreamUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.util.*;
 
 public class Iextrading {
@@ -38,7 +38,7 @@ public class Iextrading {
         return instance;  
     }
 
-	public ResultReport findUSStockForHighVol(String[] codeArr, List<String> excludeCodeList) {
+	public ResultReport selectStocks(String[] codeArr, List<String> excludeCodeList) {
 
 		ResultReport resultReport = new ResultReport();
 		Map<String, List<StockResult>> resultMap = new HashMap<>();
@@ -71,16 +71,7 @@ public class Iextrading {
 										if (stockChart.getStockData() == null) {
 											System.out.println("symbol error :" + symbol);
 										}
-										Calculator calculator = new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks());
-										if(calculator.match()) {
-											StockResult stockResult = new StockResult();
-											stockResult.setDate(stockChart.getLatestDate());
-											stockResult.setSymbol(symbol);
-											stockResult.setName(stockChart.getCompanyName());
-
-											resultMap.computeIfAbsent(calculator.getName(), o -> new ArrayList<>());
-											resultMap.get(calculator.getName()).add(stockResult);
-										}
+										matchStrategies(resultMap, symbol, stockChart);
 
 										count++;
 									}
@@ -102,16 +93,7 @@ public class Iextrading {
 										System.out.println("symbol error : " + symbol);
 										continue;
 									}
-									Calculator calculator = new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks());
-									if(calculator.match()) {
-										StockResult stockResult = new StockResult();
-										stockResult.setDate(stockChart.getLatestDate());
-										stockResult.setSymbol(symbol);
-										stockResult.setName(stockChart.getCompanyName());
-
-										resultMap.computeIfAbsent(calculator.getName(), o -> new ArrayList<>());
-										resultMap.get(calculator.getName()).add(stockResult);
-									}
+									matchStrategies(resultMap, symbol, stockChart);
 
 									count++;
 								}
@@ -132,6 +114,24 @@ public class Iextrading {
 		}
 
 		return resultReport;
+	}
+
+	private void matchStrategies(Map<String, List<StockResult>> resultMap, String symbol, StockChart stockChart) {
+
+		handleResultMap(resultMap, symbol, stockChart, new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+		handleResultMap(resultMap, symbol, stockChart, new BackToRaiseCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+	}
+
+	private void handleResultMap(Map<String, List<StockResult>> resultMap, String symbol, StockChart stockChart, Calculator calculator) {
+		if (calculator.match()) {
+			StockResult stockResult = new StockResult();
+			stockResult.setDate(stockChart.getLatestDate());
+			stockResult.setSymbol(symbol);
+			stockResult.setName(stockChart.getCompanyName());
+
+			resultMap.computeIfAbsent(calculator.getName(), o -> new ArrayList<>());
+			resultMap.get(calculator.getName()).add(stockResult);
+		}
 	}
 
 	private int calcLastFromToday(String symbolGroupStr) {

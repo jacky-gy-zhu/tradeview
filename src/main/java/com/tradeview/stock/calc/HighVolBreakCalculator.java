@@ -9,19 +9,15 @@ import java.util.List;
 
 public class HighVolBreakCalculator extends AbstractCalculator {
 
-	private StockData todayStock;
-	private List<StockData> chartStocks;
-	
 	public HighVolBreakCalculator(StockData todayStock, List<StockData> chartStocks) {
-		this.todayStock = todayStock;
-		this.chartStocks = chartStocks;
+		super(todayStock, chartStocks);
 	}
 	
 	public boolean match() {
 		return
 				// 今日收盘价大于60日内的最高点（但不超过2%），并且红K（超过4%），并且上影线很小
 				matchTodayK() &&
-				// 60日内（除了今日）的最大量那天是平均量的2倍以上，并且那天的最高点距离今日不超过5%
+				// 60日内（除了今日）的最大量那天是平均量的2倍以上，今日收盘不得超过之前高点3%
 				matchVol() &&
 				// 均线多头向上排列，粘合，收盘价站上MA5
 				matchMa();
@@ -58,24 +54,31 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		// 找出最高点
 		int topVol = 0;
 		double highOfTopVol = 0;
+		double highOfTopPrice = 0;
 		
 		// 计算出60日平均量
 		int avgVol = 0;
 
 		int totalVol = 0;
 		double totalAmount = 0;
-//		String topVolDate = null;
+		String topVolDate = null;
+		String topPriceDate = null;
 		for(int i = 0; i < chartStocks.size(); i++) {
 			StockData stockData = chartStocks.get(i);
 			double thigh = stockData.gettHigh();
 			double tclose = stockData.getTclose();
 			int vol = stockData.getVolume();
-//			String date = stockData.getDate();
+			String date = stockData.getDate();
 			
 			if(vol > topVol) {
 				topVol = vol;
 				highOfTopVol = thigh;
-//				topVolDate = date;
+				topVolDate = date;
+			}
+
+			if (thigh > highOfTopPrice) {
+				highOfTopPrice = thigh;
+				topPriceDate = date;
 			}
 			
 			totalVol += vol;
@@ -89,24 +92,26 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		
 		avgVol = totalVol/chartStocks.size();
 
-		return topVol > avgVol*Param.HUGE_VOL_RATE &&
-				(calcRate(todayStock.getTclose(), highOfTopVol) < Param.HUGE_VOL_PRICE_TO_TODAY_GAP_RATE);
+		return (topVol > avgVol*Param.HUGE_VOL_RATE) &&
+				(calcRate(todayStock.getTclose(), chartStocks.get(0).getTclose()) > Param.TODAY_UP_RATE) &&
+				(calcRate(todayStock.getTclose(), highOfTopPrice) > 0) &&
+				(calcRate(todayStock.getTclose(), highOfTopPrice) < Param.BREAK_EXCEED_RATE);
 	}
 
 	private boolean matchMa() {
 		// 今日
 		double tclose = todayStock.getTclose();
 		int index = 0;
-		double ma5 = (calcMa(4, chartStocks, index)*4+tclose)/5;
-		double ma10 = (calcMa(9, chartStocks, index)*9+tclose)/10;
-		double ma20 = (calcMa(19, chartStocks, index)*19+tclose)/20;
-		double ma30 = (calcMa(29, chartStocks, index)*29+tclose)/30;
+		double ma5 = calcTodayMa(5, tclose);
+		double ma10 = calcTodayMa(10, tclose);
+		double ma20 = calcTodayMa(20, tclose);
+		double ma30 = calcTodayMa(30, tclose);
 
 		// 昨日
-		double _ma5 = calcMa(5, chartStocks, index);
-		double _ma10 = calcMa(10, chartStocks, index);
-		double _ma20 = calcMa(20, chartStocks, index);
-		double _ma30 = calcMa(30, chartStocks, index);
+		double _ma5 = calcMa(5, index);
+		double _ma10 = calcMa(10, index);
+		double _ma20 = calcMa(20, index);
+		double _ma30 = calcMa(30, index);
 
 		return tclose > ma5 &&
 				ma5 > ma10 &&

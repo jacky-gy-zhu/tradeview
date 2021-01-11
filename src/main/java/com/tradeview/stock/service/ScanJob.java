@@ -3,7 +3,6 @@ package com.tradeview.stock.service;
 import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
 import com.tradeview.stock.model.ResultReport;
-import com.tradeview.stock.model.StockChart;
 import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.util.StreamUtils;
 
@@ -37,12 +36,13 @@ public class ScanJob {
             excludeList.addAll(excludeCodeList);
             excludeList.addAll(excludeSmallVolCodeList);
             if(codeArr != null) {
-                ResultReport resultReport = Iextrading.getInstance().findUSStockForHighVol(codeArr, excludeList);
+                ResultReport resultReport = Iextrading.getInstance().selectStocks(codeArr, excludeList);
                 if(resultReport != null) {
                     Map<String, List<StockResult>> resultMap =  resultReport.getResultMap();
                     for (Map.Entry<String, List<StockResult>> entry : resultMap.entrySet()) {
                         String strategy = entry.getKey();
                         List<StockResult> stockResults = entry.getValue();
+                        System.out.println("-----------------------------------------");
                         System.out.println(strategy + " (" + stockResults.size() + ")");
                         for(StockResult stock : stockResults) {
                             if (Param.T_PLUS > 0) {
