@@ -43,5 +43,5 @@ public class Param {
 	// N字型走势回调比例最小值
 	public static float N_BACK_BODY_MIN_RATE = 0.22f;
 	// 调整时间最大值
-	public static int N_BACK_MIN_DAYS = 7;
+	public static int N_BACK_MIN_DAYS = 10;
 }
