@@ -2257,3 +2257,8 @@ clnc
 alac
 pte
 jmbs
+chu
+ttoo
+chl
+crmt
+cha
