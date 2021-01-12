@@ -1,17 +1,10 @@
 package com.tradeview.stock.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import org.apache.commons.io.IOUtils;
+import org.springframework.util.FastByteArrayOutputStream;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -299,5 +292,46 @@ public class StreamUtils {
             return null;
         }
     }
+
+	private static byte[] createPdf(String htmlString) {
+
+		FastByteArrayOutputStream baos = new FastByteArrayOutputStream();
+		ITextRenderer render = new ITextRenderer();
+
+		try {
+
+			render.setDocumentFromString(htmlString);
+			render.layout();
+			render.createPDF(baos);
+		}
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return baos.toByteArray();
+	}
+
+	private static void savePdf(final byte[] data, final String path) {
+		final File output = new File(path);
+		OutputStream outputStream = null;
+
+		try {
+			outputStream = new BufferedOutputStream(new FileOutputStream(output));
+			outputStream.write(data);
+		}
+		catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		finally {
+
+			IOUtils.closeQuietly(outputStream);
+		}
+	}
+
+	public static void generatePDF(String htmlString, String pdfPath) {
+		savePdf(createPdf(htmlString), pdfPath);
+	}
 
 }
