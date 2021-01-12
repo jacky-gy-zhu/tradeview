@@ -2,8 +2,8 @@ package com.tradeview.stock.service;
 
 import com.tradeview.stock.api.Iexapis;
 import com.tradeview.stock.calc.BackToRaiseAndBreakTopCalculator;
-import com.tradeview.stock.calc.BackToRaiseCalculator;
 import com.tradeview.stock.calc.Calculator;
+import com.tradeview.stock.calc.HeaderFooterHigherCalculator;
 import com.tradeview.stock.calc.HighVolBreakCalculator;
 import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
@@ -135,6 +135,7 @@ public class Iextrading {
 		handleResultMap(resultMap, symbol, stockChart, new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 //		handleResultMap(resultMap, symbol, stockChart, new BackToRaiseCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 		handleResultMap(resultMap, symbol, stockChart, new BackToRaiseAndBreakTopCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+		handleResultMap(resultMap, symbol, stockChart, new HeaderFooterHigherCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 	}
 
 	private void handleResultMap(Map<String, List<StockResult>> resultMap, String symbol, StockChart stockChart, Calculator calculator) {

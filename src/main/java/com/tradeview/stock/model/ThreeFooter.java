@@ -2,6 +2,12 @@ package com.tradeview.stock.model;
 
 public class ThreeFooter {
 
+    // MA5的三个落脚点的index
+    private int p1;
+    private int p2;
+    private int p3;
+
+    // 股价三个最低点的价格和相间隔的天数
     private double f1;
     private double f2;
     private double f3;
@@ -46,5 +52,29 @@ public class ThreeFooter {
 
     public void setPeriod2(int period2) {
         this.period2 = period2;
+    }
+
+    public int getP1() {
+        return p1;
+    }
+
+    public void setP1(int p1) {
+        this.p1 = p1;
+    }
+
+    public int getP2() {
+        return p2;
+    }
+
+    public void setP2(int p2) {
+        this.p2 = p2;
+    }
+
+    public int getP3() {
+        return p3;
+    }
+
+    public void setP3(int p3) {
+        this.p3 = p3;
     }
 }
