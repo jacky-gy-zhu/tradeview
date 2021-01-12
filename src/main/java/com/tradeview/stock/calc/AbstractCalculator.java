@@ -21,7 +21,11 @@ public abstract class AbstractCalculator implements Calculator {
      * @return
      */
     protected double calcRate(double higher, double lower) {
-        return (higher - lower)/lower;
+        if (higher > lower) {
+            return (higher - lower)/lower;
+        } else {
+            return (lower - higher)/higher;
+        }
     }
 
     /**
@@ -57,7 +61,6 @@ public abstract class AbstractCalculator implements Calculator {
     /**
      * 计算均线
      * @param ma
-     * @param stockList
      * @param index
      * @return
      */
@@ -87,5 +90,19 @@ public abstract class AbstractCalculator implements Calculator {
         return (calcMa((ma-1), index)*(ma-1)+tclose)/ma;
     }
 
+    /**
+     * 计算3个脚成一线的第三个脚的价格
+     * @param f1
+     * @param f2
+     * @param period1 f1 ~ f2
+     * @param period2 f2 ~ f3
+     * @return
+     */
+    protected double calc3rdFootPrice(double f1, double f2, int period1, int period2) {
+        double p1 = period1;
+        double p2 = period2;
+        double x = f2 - f1;
+        return ((p1 + p2) * x) / p1 + f1;
+    }
 
 }

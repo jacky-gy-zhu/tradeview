@@ -44,4 +44,7 @@ public class Param {
 	public static float N_BACK_BODY_MIN_RATE = 0.236f;
 	// 调整时间最大值
 	public static int N_BACK_MIN_DAYS = 10;
+
+	// 3脚连线误差比率
+	public static float THREE_FOOTER_MAX_GAP_RATE = 0.005f;
 }
