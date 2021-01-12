@@ -157,7 +157,7 @@ public class Iextrading {
 	private int calcDayGapFromToday(Date latestLocalDate) {
 		if (latestLocalDate != null) {
 			Date nowDate = new Date();
-			return daysBetween(latestLocalDate, nowDate) + 1;
+			return daysBetween(latestLocalDate, nowDate);
 		} else {
 			return 0;
 		}
