@@ -45,7 +45,6 @@ public class Iextrading {
 		Map<String, List<StockResult>> resultMap = new HashMap<>();
 		resultReport.setResultMap(resultMap);
 		if(codeArr != null) {
-			List<StockChart> result = new ArrayList();
 			List<String> urlList = getAvailableUrlList(codeArr, excludeCodeList);
 			int count = 0;
 			System.out.println();
