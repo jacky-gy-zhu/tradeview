@@ -10,7 +10,6 @@ public class Iexapis {
 		https://cloud.iexapis.com/stable/stock/market/batch?symbols=x&types=quote,chart&range=3m&last=1&token=pk_8b34a5210db94eb3be6f3675277b3746
 	 */
 	public static String getUrlForDailyK(String symbol, int month, int last) {
-		last = 0;
 		if (last == 0) {
 			last = month*22;
 		}
