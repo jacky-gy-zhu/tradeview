@@ -60,21 +60,35 @@ public class Iextrading {
 						contentJson = ConnectionUtil.getInstance().getJsonObject(iextapisUrl, "UTF-8");
 					}
 					for(String symbol : symbols) {
-						if(contentJson != null) {
+						if(contentJson != null ) {
 							JSONObject symbolObj = contentJson.getJSONObject(symbol.toUpperCase());
 							if(symbolObj != null) {
 								try {
-									JSONObject quote = symbolObj.getJSONObject("quote");
-									JSONArray chart = symbolObj.getJSONArray("chart");
-									JSONArray totalChart = addJSONArrayToStore(symbol, chart);
-									if(quote != null && totalChart != null) {
-										StockChart stockChart = new StockChart(quote, totalChart);
-										if (stockChart.getStockData() == null) {
-											System.out.println("symbol error :" + symbol);
-										}
-										matchStrategies(resultMap, symbol, stockChart);
+									if (Constants.allow_override_json_data) {
+										JSONArray chart = symbolObj.getJSONArray("chart");
+										JSONArray totalChart = addJSONArrayToStore(symbol, chart);
+										if(totalChart != null) {
+											StockChart stockChart = new StockChart(symbol, totalChart);
+											if (stockChart.getStockData() == null) {
+												System.out.println("symbol error :" + symbol);
+											}
+											matchStrategies(resultMap, symbol, stockChart);
 
-										count++;
+											count++;
+										}
+									} else {
+										JSONObject quote = symbolObj.getJSONObject("quote");
+										JSONArray chart = symbolObj.getJSONArray("chart");
+										JSONArray totalChart = addJSONArrayToStore(symbol, chart);
+										if(quote != null && totalChart != null) {
+											StockChart stockChart = new StockChart(quote, totalChart);
+											if (stockChart.getStockData() == null) {
+												System.out.println("symbol error :" + symbol);
+											}
+											matchStrategies(resultMap, symbol, stockChart);
+
+											count++;
+										}
 									}
 								} catch(Exception e) {
 									if (Constants.throw_if_error_and_print_url) {

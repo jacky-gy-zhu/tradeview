@@ -14,7 +14,11 @@ public class Iexapis {
 		if (last == 0) {
 			last = month*22;
 		}
-		String url = "https://cloud.iexapis.com/stable/stock/market/batch?symbols="+symbol+"&types=quote,chart&range="+month+"m&last="+last+"&token="+ Constants.iextapis_token;
+		String quote = "";
+		if (!Constants.allow_override_json_data) {
+			quote = "quote,";
+		}
+		String url = "https://cloud.iexapis.com/stable/stock/market/batch?symbols="+symbol+"&types="+quote+"chart&range="+month+"m&last="+last+"&token="+ Constants.iextapis_token;
 		if (Constants.throw_if_error_and_print_url) {
 			System.out.println(url);
 		}
