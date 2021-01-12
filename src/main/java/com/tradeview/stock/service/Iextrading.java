@@ -19,7 +19,7 @@ import java.util.*;
 
 public class Iextrading {
 	
-	public static int batch = 100;
+	public static int batch = 50;
 	
 	private Iextrading(){
 	}
