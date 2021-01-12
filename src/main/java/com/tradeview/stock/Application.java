@@ -20,6 +20,12 @@ public class Application {
         ScanJob scanJob = new ScanJob();
         scanJob.runScan(false);
 
+//        for (int i = 0; i < 20; i++) {
+//            Param.T_PLUS = i;
+//            ScanJob scanJob = new ScanJob();
+//            scanJob.runScan(false);
+//        }
+
         System.out.println("API called times : " + Iexapis.count);
 
     }
