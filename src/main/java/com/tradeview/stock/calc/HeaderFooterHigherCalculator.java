@@ -108,8 +108,8 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 		}
 
 		threeFooter.setP1(p1);
-		threeFooter.setP2(p2);
-		threeFooter.setP3(p3);
+		threeFooter.setP2(p3);
+		threeFooter.setP3(p5);
 
 		return
 				// 头头高
