@@ -105,4 +105,18 @@ public abstract class AbstractCalculator implements Calculator {
         return ((p1 + p2) * x) / p1 + f1;
     }
 
+    /**
+     * 计算2个值之间的差距比例（小于等于1）
+     * @param p1
+     * @param p2
+     * @return
+     */
+    protected double calcGapPercentage(double p1, double p2) {
+        if (p1 < p2) {
+            return p1 / p2;
+        } else {
+            return p2 / p1;
+        }
+    }
+
 }

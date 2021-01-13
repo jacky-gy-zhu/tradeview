@@ -166,7 +166,7 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 	private boolean matchPeriodEven(ThreeFooter threeFooter) {
 		int period1 = threeFooter.getPeriod1();
 		int period2 = threeFooter.getPeriod2();
-		return calcRate(period1, period2) < Param.THREE_FOOTER_PERIOD_EVEN_RATE;
+		return calcGapPercentage(period1, period2) > Param.THREE_FOOTER_PERIOD_EVEN_RATE;
 	}
 
 	private boolean matchHighLowWave(ThreeFooter threeFooter) {
