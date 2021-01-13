@@ -7,7 +7,7 @@ public class Iexapis {
 	public static int count = 0;
 	
 	/*
-		https://cloud.iexapis.com/stable/stock/market/batch?symbols=x&types=quote,chart&range=3m&last=1&token=pk_8b34a5210db94eb3be6f3675277b3746
+		https://cloud.iexapis.com/stable/stock/market/batch?symbols=x&types=chart&range=3m&last=1&token=pk_8b34a5210db94eb3be6f3675277b3746
 	 */
 	public static String getUrlForDailyK(String symbol, int month, int last) {
 		if (last == 0) {
