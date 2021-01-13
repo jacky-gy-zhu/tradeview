@@ -177,7 +177,7 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 
 	@Override
     public String getName() {
-        return "头头高低低高";
+        return "头头高底底高";
     }
 
 }
