@@ -2,6 +2,7 @@ package com.tradeview.stock.calc;
 
 import com.tradeview.stock.config.Param;
 import com.tradeview.stock.model.StockData;
+import com.tradeview.stock.model.StockPoint;
 import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.model.ThreeFooter;
 
@@ -119,94 +120,26 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 	}
 
 	private boolean matchHighLowHeaderFooterHigher(ThreeFooter threeFooter) {
-    	double h1 = 0;
-    	double _h1 = 0;
-    	double h2 = 0;
-    	double _h2 = 0;
-    	double f1 = 0;
-    	double f2 = 0;
-    	double _f2 = 0;
-    	double f3 = 0;
-    	int p1 = threeFooter.getP1();
-    	int p2 = threeFooter.getP2();
-    	int p3 = threeFooter.getP3();
-		int p1p2Middle = (p2 - p1) / 2 + p1;
-		int p2p3Middle = (p3 - p2) / 2 + p2;
-		int i1 = 0;
-		int i2 = 0;
-		int _i2 = 0;
-		int i3 = 0;
+		int p1 = threeFooter.getP1();
+		int p2 = threeFooter.getP2();
+		int p3 = threeFooter.getP3();
 
-    	double high = 0;
-    	double low = 999999;
-    	int highIndex = 0;
-    	int lowIndex = 0;
-    	int step = 0;
-		for(int i = 0; i < chartStocks.size()-1; i++) {
-			StockData stockData = chartStocks.get(i);
-			double thigh = stockData.getThigh();
-			double tlow = stockData.getTlow();
-
-			if (thigh > high) {
-				high = thigh;
-				highIndex = i;
-			}
-			if (tlow < low) {
-				low = tlow;
-				lowIndex = i;
-			}
-
-			if (i < p1p2Middle) {
-				f1 = tlow;
-				h1 = thigh;
-				i1 = lowIndex;
-			} else if (i >= p1p2Middle && i < p2) {
-				if (step == 0) {
-					step = 1;
-					high = 0;
-					low = 999999;
-				}
-				f2 = tlow;
-				_h1 = thigh;
-				i2 = lowIndex;
-			} else if (i >= p2 && i < p2p3Middle) {
-				if (step == 1) {
-					step = 2;
-					high = 0;
-					low = 999999;
-				}
-				_f2 = tlow;
-				h2 = thigh;
-				_i2 = lowIndex;
-			} else if (i >= p2p3Middle && i <= (p3+2)) {
-				if (step == 2) {
-					step = 3;
-					high = 0;
-					low = 999999;
-				}
-				f3 = tlow;
-				_h2 = thigh;
-				i3 = lowIndex;
-			} else {
-				break;
-			}
-		}
-
-		double header1 = h1 > _h1 ? h1 : _h1;
-		double header2 = h2 > _h2 ? h2 : _h2;
-		double footer1 = f1;
-		double footer2 = f2 < _f2 ? f2 : _f2;
-		double footer3 = f3;
-
-		int index2 = f2 < _f2 ? i2 : _i2;
-		int period1 = index2 - i1;
-		int period2 = i3 - index2;
+		StockPoint header1Obj = findHighByIndexRange(0, p2);
+		StockPoint header2Obj = findHighByIndexRange(p2, p3);
+		double header1 = header1Obj.getPrice();
+		double header2 = header2Obj.getPrice();
+		StockPoint footer1Obj = findLowByIndexRange(0, header1Obj.getIndex());
+		double footer1 = footer1Obj.getPrice();
+		StockPoint footer2Obj = findLowByIndexRange(header1Obj.getIndex(), header2Obj.getIndex());
+		double footer2 = footer2Obj.getPrice();
+		StockPoint footer3Obj = findLowByIndexRange(header2Obj.getIndex(), p3+2);
+		double footer3 = footer3Obj.getPrice();
 
 		threeFooter.setF1(footer1);
 		threeFooter.setF2(footer2);
 		threeFooter.setF3(footer3);
-		threeFooter.setPeriod1(period1);
-		threeFooter.setPeriod2(period2);
+		threeFooter.setPeriod1(footer2Obj.getIndex() - footer1Obj.getIndex());
+		threeFooter.setPeriod2(footer3Obj.getIndex() - footer2Obj.getIndex());
 
 		return
 				(header1 > header2) &&
@@ -222,6 +155,36 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 
 		double expectingF3 = calc3rdFootPrice(f1, f2, period1, period2);
 		return calcRate(expectingF3, f3) < Param.THREE_FOOTER_MAX_GAP_RATE;
+	}
+
+	private StockPoint findHighByIndexRange(int from, int to) {
+    	double high = 0;
+    	int index = 0;
+		for(int i = from; i < to; i++) {
+			StockData stockData = chartStocks.get(i);
+			double thigh = stockData.getThigh();
+
+			if (thigh > high) {
+				high = thigh;
+				index = i;
+			}
+		}
+		return new StockPoint(high, index);
+	}
+
+	private StockPoint findLowByIndexRange(int from, int to) {
+		double low = 999999;
+		int index = 0;
+		for(int i = from; i < to; i++) {
+			StockData stockData = chartStocks.get(i);
+			double tlow = stockData.getTlow();
+
+			if (tlow < low) {
+				low = tlow;
+				index = i;
+			}
+		}
+		return new StockPoint(low, index);
 	}
 
 	@Override
