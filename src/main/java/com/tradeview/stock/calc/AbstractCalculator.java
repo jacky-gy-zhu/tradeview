@@ -145,6 +145,9 @@ public abstract class AbstractCalculator implements Calculator {
             double price = stockPoint.getPrice();
             int index = stockPoint.getIndex();
 
+            if (price < zeroPrice) {
+                return false;
+            }
             if (!(calcRate((price - zeroPrice) / (index - zeroIndex), ratio) < Param.THREE_FOOTER_MAX_GAP_RATE)) {
                 return false;
             }
