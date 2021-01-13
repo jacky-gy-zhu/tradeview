@@ -127,13 +127,13 @@ public abstract class AbstractCalculator implements Calculator {
      * @return
      */
     protected Boolean isInOneLine(List<StockPoint> stockPoints) {
-        if (stockPoints == null || stockPoints.size() < 3) {
+        if (stockPoints == null || stockPoints.size() < Param.ABC_CALLBACK_MIN_GAP) {
             return null;
         }
-        if ((stockPoints.get(1).getIndex() - stockPoints.get(0).getIndex()) <= 2) {
+        if ((stockPoints.get(1).getIndex() - stockPoints.get(0).getIndex()) <= Param.ABC_CALLBACK_MIN_GAP) {
             return false;
         }
-        if ((stockPoints.get(2).getIndex() - stockPoints.get(1).getIndex()) <= 2) {
+        if ((stockPoints.get(2).getIndex() - stockPoints.get(1).getIndex()) <= Param.ABC_CALLBACK_MIN_GAP) {
             return false;
         }
         StockPoint zeroPoint = stockPoints.get(0);

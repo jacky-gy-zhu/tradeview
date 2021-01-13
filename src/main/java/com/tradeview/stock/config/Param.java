@@ -61,4 +61,5 @@ public class Param {
 	// ABC修正高点最大范围
 	public static int ABC_CALLBACK_MAX_DAY_RANGE = 22;
 	public static int ABC_CALLBACK_MIN_GAP = 3;
+	public static float ABC_CALLBACK_MIN_HIGH_LOW_RATE = 0.1f;
 }
