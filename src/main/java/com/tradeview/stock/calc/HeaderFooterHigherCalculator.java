@@ -186,36 +186,6 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 				((period1 < Param.THREE_FOOTER_PERIOD_GAP_DAYS) && (period2 < Param.THREE_FOOTER_PERIOD_GAP_DAYS));
 	}
 
-	private StockPoint findHighByIndexRange(int from, int to) {
-    	double high = 0;
-    	int index = 0;
-		for(int i = from; i < to; i++) {
-			StockData stockData = chartStocks.get(i);
-			double thigh = stockData.getThigh();
-
-			if (thigh > high) {
-				high = thigh;
-				index = i;
-			}
-		}
-		return new StockPoint(high, index);
-	}
-
-	private StockPoint findLowByIndexRange(int from, int to) {
-		double low = 999999;
-		int index = 0;
-		for(int i = from; i < to; i++) {
-			StockData stockData = chartStocks.get(i);
-			double tlow = stockData.getTlow();
-
-			if (tlow < low) {
-				low = tlow;
-				index = i;
-			}
-		}
-		return new StockPoint(low, index);
-	}
-
 	@Override
     public String getName() {
         return "头头高低低高";

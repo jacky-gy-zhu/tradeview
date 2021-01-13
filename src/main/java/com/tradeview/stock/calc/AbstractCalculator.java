@@ -153,4 +153,46 @@ public abstract class AbstractCalculator implements Calculator {
         return true;
     }
 
+    /**
+     * 计算指定范围内的高点
+     * @param from
+     * @param to
+     * @return
+     */
+    protected StockPoint findHighByIndexRange(int from, int to) {
+        double high = 0;
+        int index = 0;
+        for(int i = from; i < to; i++) {
+            StockData stockData = chartStocks.get(i);
+            double thigh = stockData.getThigh();
+
+            if (thigh > high) {
+                high = thigh;
+                index = i;
+            }
+        }
+        return new StockPoint(high, index);
+    }
+
+    /**
+     * 计算指定范围内的低点
+     * @param from
+     * @param to
+     * @return
+     */
+    protected StockPoint findLowByIndexRange(int from, int to) {
+        double low = 999999;
+        int index = 0;
+        for(int i = from; i < to; i++) {
+            StockData stockData = chartStocks.get(i);
+            double tlow = stockData.getTlow();
+
+            if (tlow < low) {
+                low = tlow;
+                index = i;
+            }
+        }
+        return new StockPoint(low, index);
+    }
+
 }

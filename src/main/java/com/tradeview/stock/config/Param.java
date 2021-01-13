@@ -57,4 +57,8 @@ public class Param {
 	public static float THREE_FOOTER_HIGH_LOW_WAVE_RATE = 0.15f;
 	// 最大波浪间隔
 	public static int THREE_FOOTER_PERIOD_GAP_DAYS = 20;
+
+	// ABC修正高点最大范围
+	public static int ABC_CALLBACK_MAX_DAY_RANGE = 22;
+	public static int ABC_CALLBACK_MIN_GAP = 3;
 }
