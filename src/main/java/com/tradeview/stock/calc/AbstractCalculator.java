@@ -1,6 +1,8 @@
 package com.tradeview.stock.calc;
 
+import com.tradeview.stock.config.Param;
 import com.tradeview.stock.model.StockData;
+import com.tradeview.stock.model.StockPoint;
 
 import java.util.List;
 
@@ -117,6 +119,38 @@ public abstract class AbstractCalculator implements Calculator {
         } else {
             return p2 / p1;
         }
+    }
+
+    /**
+     * 计算是否连成一线
+     * @param stockPoints
+     * @return
+     */
+    protected boolean isInOneLine(List<StockPoint> stockPoints) {
+        if (stockPoints == null || stockPoints.size() < 3) {
+            return false;
+        }
+        StockPoint zeroPoint = stockPoints.get(0);
+        double zeroPrice = zeroPoint.getPrice();
+        int zeroIndex = zeroPoint.getIndex();
+
+        StockPoint farPoint = stockPoints.get(stockPoints.size() - 1);
+        double farPrice = farPoint.getPrice();
+        int farIndex = farPoint.getIndex();
+
+        double ratio = (farPrice - zeroPrice) / (farIndex - zeroIndex);
+
+        for (int i = 1; i < stockPoints.size() - 1; i++) {
+            StockPoint stockPoint = stockPoints.get(i);
+            double price = stockPoint.getPrice();
+            int index = stockPoint.getIndex();
+
+            if (!(calcRate((price - zeroPrice) / (index - zeroIndex), ratio) < Param.THREE_FOOTER_MAX_GAP_RATE)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
