@@ -152,17 +152,6 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 				((footer1 > footer2) && (footer2 > footer3));
 	}
 
-	private boolean matchFooterInOneLine(ThreeFooter threeFooter) {
-    	double f1= threeFooter.getF1();
-    	double f2 = threeFooter.getF2();
-    	double f3 = threeFooter.getF3();
-    	int period1 = threeFooter.getPeriod1();
-    	int period2 = threeFooter.getPeriod2();
-
-		double expectingF3 = calc3rdFootPrice(f1, f2, period1, period2);
-		return calcRate(expectingF3, f3) < Param.THREE_FOOTER_MAX_GAP_RATE;
-	}
-
 	private boolean matchPeriodEven(ThreeFooter threeFooter) {
 		int period1 = threeFooter.getPeriod1();
 		int period2 = threeFooter.getPeriod2();

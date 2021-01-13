@@ -23,24 +23,38 @@ public class AbcCallbackCalculator extends AbstractCalculator {
     }
 
 	private boolean matchHighLine() {
-		StockPoint header = findHighByIndexRange(0, chartStocks.size() - 1);
-		int headerIndex = header.getIndex();
-		StockPoint zeroPoint = new StockPoint(chartStocks.get(0).getThigh(), 0);
+    	int count = 0;
+    	int farRangeIndex = chartStocks.size() - 1;
+    	do {
+			StockPoint header = findHighByIndexRange(0, farRangeIndex);
+			int headerIndex = header.getIndex();
+			StockPoint zeroPoint = new StockPoint(chartStocks.get(0).getThigh(), 0);
 
-		if (headerIndex <= Param.ABC_CALLBACK_MAX_DAY_RANGE && headerIndex > Param.ABC_CALLBACK_MIN_GAP) {
-			for (int i = 1; i < headerIndex - Param.ABC_CALLBACK_MIN_GAP; i++) {
-				StockData stockData = chartStocks.get(i);
-				List<StockPoint> stockPoints = new ArrayList<>();
-				stockPoints.add(zeroPoint);
-				stockPoints.add(new StockPoint(stockData.getThigh(), i));
-				stockPoints.add(header);
-				if (isInOneLine(stockPoints) == null) {
-					return false;
-				} else if (isInOneLine(stockPoints)) {
-					return true;
+			boolean matchAtLeastOne = false;
+			if (headerIndex <= Param.ABC_CALLBACK_MAX_DAY_RANGE && headerIndex > Param.ABC_CALLBACK_MIN_GAP) {
+				for (int i = 1; i < headerIndex - Param.ABC_CALLBACK_MIN_GAP; i++) {
+					StockData stockData = chartStocks.get(i);
+					List<StockPoint> stockPoints = new ArrayList<>();
+					stockPoints.add(zeroPoint);
+					stockPoints.add(new StockPoint(stockData.getThigh(), i));
+					stockPoints.add(header);
+					if (isInOneLine(stockPoints) == null) {
+						matchAtLeastOne = false;
+						break;
+					} else if (isInOneLine(stockPoints)) {
+						matchAtLeastOne = true;
+					}
 				}
 			}
-		}
+
+			if (matchAtLeastOne) {
+				return true;
+			}
+
+			farRangeIndex = headerIndex;
+			count++;
+		} while (count < 5);
+
 		return false;
 	}
 

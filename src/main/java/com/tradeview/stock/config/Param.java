@@ -50,7 +50,7 @@ public class Param {
 	public static int N_BACK_MIN_DAYS = 10;
 
 	// 3脚连线误差比率
-	public static float THREE_FOOTER_MAX_GAP_RATE = 0.005f;
+	public static float THREE_FOOTER_MAX_GAP_RATE = 0.9f;
 	// 前2次回调幅度差不多
 	public static float THREE_FOOTER_PERIOD_EVEN_RATE = 0.5f;
 	// 高点和低点的震动幅度
