@@ -153,7 +153,7 @@ public abstract class AbstractCalculator implements Calculator {
                 double thisRatio = (price - zeroPrice) / (index - zeroIndex);
                 if (thisRatio > ratio) {
                     return null;
-                } else if (calcGapPercentage(thisRatio, ratio) > Param.THREE_FOOTER_MAX_GAP_RATE) {
+                } else if (calcGapPercentage(thisRatio, ratio) < Param.THREE_FOOTER_MAX_GAP_RATE) {
                     // 匹配失败
                     return false;
                 }
