@@ -71,11 +71,15 @@ public class StockChart {
             Date date = Constants.SDF.parse(quote.getString("latestTime"));
             this.latestDate = Constants.SDF2.format(date);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            this.latestDate = Constants.SDF2.format(new Date());
         }
 
         // quote
-        this.stockData = convertStockDataFromJsonObject(quote);
+        try {
+            this.stockData = convertStockDataFromJsonObject(quote);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         this.stockData.setLclose(quote.getDouble("previousClose"));
 
         // chart
