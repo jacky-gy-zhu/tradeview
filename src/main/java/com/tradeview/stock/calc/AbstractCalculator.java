@@ -130,6 +130,12 @@ public abstract class AbstractCalculator implements Calculator {
         if (stockPoints == null || stockPoints.size() < 3) {
             return null;
         }
+        if ((stockPoints.get(1).getIndex() - stockPoints.get(0).getIndex()) <= 2) {
+            return false;
+        }
+        if ((stockPoints.get(2).getIndex() - stockPoints.get(1).getIndex()) <= 2) {
+            return false;
+        }
         StockPoint zeroPoint = stockPoints.get(0);
         double zeroPrice = zeroPoint.getPrice();
         int zeroIndex = zeroPoint.getIndex();
