@@ -5,6 +5,10 @@ public class Param {
 	// 向前推演
 	public static int T_PLUS = 0;
 
+	// 黄金分割
+	public static float GOLD_CUT_RATE = 0.618f;
+	public static float GOLD_CUT_RATE2 = 0.809f;
+
 	// 排查小量交易股票
 	public static float AVG_AMOUNT_VOL_TOLERANCE = 500 * 10000;
 	
@@ -49,4 +53,8 @@ public class Param {
 	public static float THREE_FOOTER_MAX_GAP_RATE = 0.005f;
 	// 前2次回调幅度差不多
 	public static float THREE_FOOTER_PERIOD_EVEN_RATE = 0.3f;
+	// 高点和低点的震动幅度
+	public static float THREE_FOOTER_HIGH_LOW_WAVE_RATE = 0.1f;
+	// 最大波浪间隔
+	public static int THREE_FOOTER_PERIOD_GAP_DAYS = 20;
 }

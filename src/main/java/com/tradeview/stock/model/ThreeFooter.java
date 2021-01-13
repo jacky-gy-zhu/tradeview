@@ -8,6 +8,8 @@ public class ThreeFooter {
     private int p3;
 
     // 股价三个最低点的价格和相间隔的天数
+    private double h1;
+    private double h2;
     private double f1;
     private double f2;
     private double f3;
@@ -76,5 +78,21 @@ public class ThreeFooter {
 
     public void setP3(int p3) {
         this.p3 = p3;
+    }
+
+    public double getH1() {
+        return h1;
+    }
+
+    public void setH1(double h1) {
+        this.h1 = h1;
+    }
+
+    public double getH2() {
+        return h2;
+    }
+
+    public void setH2(double h2) {
+        this.h2 = h2;
     }
 }

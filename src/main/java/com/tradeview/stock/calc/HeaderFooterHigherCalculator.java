@@ -24,7 +24,9 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 				// K线（高点和低点）头头高底底高
 				matchHighLowHeaderFooterHigher(threeFooter) &&
 				// 前2次回调幅度差不多
-				matchPeriodEven(threeFooter);
+				matchPeriodEven(threeFooter) &&
+				// 高点和低点之间的震动幅度大
+				matchHighLowWave(threeFooter);
 				// 3个脚点低点可以连成一线
 //				matchFooterInOneLine(threeFooter);
 		if (result) {
@@ -137,6 +139,8 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 		StockPoint footer3Obj = findLowByIndexRange(header2Obj.getIndex(), p3+2);
 		double footer3 = footer3Obj.getPrice();
 
+		threeFooter.setH1(header1);
+		threeFooter.setH2(header2);
 		threeFooter.setF1(footer1);
 		threeFooter.setF2(footer2);
 		threeFooter.setF3(footer3);
@@ -163,6 +167,23 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 		int period1 = threeFooter.getPeriod1();
 		int period2 = threeFooter.getPeriod2();
 		return calcRate(period1, period2) < Param.THREE_FOOTER_PERIOD_EVEN_RATE;
+	}
+
+	private boolean matchHighLowWave(ThreeFooter threeFooter) {
+    	double h1 = threeFooter.getH1();
+    	double h2 = threeFooter.getH2();
+    	double f1 = threeFooter.getF1();
+    	double f2 = threeFooter.getF2();
+    	double f3 = threeFooter.getF3();
+		int period1 = threeFooter.getPeriod1();
+		int period2 = threeFooter.getPeriod2();
+
+    	return
+				(calcRate(h1, f2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
+				(calcRate(h2, f3) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
+				((h1-f1)/(h1-f2) <= Param.GOLD_CUT_RATE) &&
+				((h2-f2)/(h2-f3) <= Param.GOLD_CUT_RATE2) &&
+				((period1 < Param.THREE_FOOTER_PERIOD_GAP_DAYS) && (period2 < Param.THREE_FOOTER_PERIOD_GAP_DAYS));
 	}
 
 	private StockPoint findHighByIndexRange(int from, int to) {
