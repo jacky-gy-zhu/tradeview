@@ -126,9 +126,9 @@ public abstract class AbstractCalculator implements Calculator {
      * @param stockPoints
      * @return
      */
-    protected boolean isInOneLine(List<StockPoint> stockPoints) {
+    protected Boolean isInOneLine(List<StockPoint> stockPoints) {
         if (stockPoints == null || stockPoints.size() < 3) {
-            return false;
+            return null;
         }
         StockPoint zeroPoint = stockPoints.get(0);
         double zeroPrice = zeroPoint.getPrice();
@@ -145,11 +145,18 @@ public abstract class AbstractCalculator implements Calculator {
             double price = stockPoint.getPrice();
             int index = stockPoint.getIndex();
 
-            if (price < zeroPrice) {
+            if (price <= zeroPrice) {
+                // 价格小于等于0轴价格，肯定不会匹配
                 return false;
-            }
-            if (!(calcRate((price - zeroPrice) / (index - zeroIndex), ratio) < Param.THREE_FOOTER_MAX_GAP_RATE)) {
-                return false;
+            } else {
+                // 如果在连线上方，则不需要继续匹配，返回null
+                double thisRatio = (price - zeroPrice) / (index - zeroIndex);
+                if (thisRatio > ratio) {
+                    return null;
+                } else if (!(calcRate((price - zeroPrice) / (index - zeroIndex), ratio) < Param.THREE_FOOTER_MAX_GAP_RATE)) {
+                    // 匹配失败
+                    return false;
+                }
             }
         }
 

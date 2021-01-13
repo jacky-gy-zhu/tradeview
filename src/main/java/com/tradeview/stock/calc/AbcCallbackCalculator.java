@@ -28,13 +28,15 @@ public class AbcCallbackCalculator extends AbstractCalculator {
 		StockPoint zeroPoint = new StockPoint(chartStocks.get(0).getThigh(), 0);
 
 		if (headerIndex <= Param.ABC_CALLBACK_MAX_DAY_RANGE && headerIndex > Param.ABC_CALLBACK_MIN_GAP) {
-			for (int i = Param.ABC_CALLBACK_MIN_GAP; i < headerIndex - Param.ABC_CALLBACK_MIN_GAP; i++) {
+			for (int i = 1; i < headerIndex - Param.ABC_CALLBACK_MIN_GAP; i++) {
 				StockData stockData = chartStocks.get(i);
 				List<StockPoint> stockPoints = new ArrayList<>();
 				stockPoints.add(zeroPoint);
 				stockPoints.add(new StockPoint(stockData.getThigh(), i));
 				stockPoints.add(header);
-				if (isInOneLine(stockPoints)) {
+				if (isInOneLine(stockPoints) == null) {
+					return false;
+				} else if (isInOneLine(stockPoints)) {
 					return true;
 				}
 			}
