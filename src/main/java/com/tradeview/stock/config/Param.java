@@ -47,4 +47,6 @@ public class Param {
 
 	// 3脚连线误差比率
 	public static float THREE_FOOTER_MAX_GAP_RATE = 0.005f;
+	// 前2次回调幅度差不多
+	public static float THREE_FOOTER_PERIOD_EVEN_RATE = 0.3f;
 }

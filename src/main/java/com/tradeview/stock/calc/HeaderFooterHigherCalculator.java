@@ -23,8 +23,10 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 				matchMA5HeaderFooterHigher(threeFooter) &&
 				// K线（高点和低点）头头高底底高
 				matchHighLowHeaderFooterHigher(threeFooter) &&
+				// 前2次回调幅度差不多
+				matchPeriodEven(threeFooter);
 				// 3个脚点低点可以连成一线
-				matchFooterInOneLine(threeFooter);
+//				matchFooterInOneLine(threeFooter);
 		if (result) {
 			stockResult.setPeriod(threeFooter.getPeriod1() + " ~ " + threeFooter.getPeriod2());
 		}
@@ -155,6 +157,12 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 
 		double expectingF3 = calc3rdFootPrice(f1, f2, period1, period2);
 		return calcRate(expectingF3, f3) < Param.THREE_FOOTER_MAX_GAP_RATE;
+	}
+
+	private boolean matchPeriodEven(ThreeFooter threeFooter) {
+		int period1 = threeFooter.getPeriod1();
+		int period2 = threeFooter.getPeriod2();
+		return calcRate(period1, period2) < Param.THREE_FOOTER_PERIOD_EVEN_RATE;
 	}
 
 	private StockPoint findHighByIndexRange(int from, int to) {
