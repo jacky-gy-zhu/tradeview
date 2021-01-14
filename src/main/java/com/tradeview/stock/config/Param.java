@@ -55,6 +55,7 @@ public class Param {
 	public static float THREE_FOOTER_PERIOD_EVEN_RATE = 0.5f;
 	// 高点和低点的震动幅度
 	public static float THREE_FOOTER_HIGH_LOW_WAVE_RATE = 0.15f;
+	public static float THREE_FOOTER_HIGH_LOW_WAVE_RATE2 = 0.05f;
 	// 最大波浪间隔
 	public static int THREE_FOOTER_PERIOD_GAP_DAYS = 20;
 
