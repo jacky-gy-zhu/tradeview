@@ -17,7 +17,7 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
     public boolean match(StockResult stockResult) {
 		ThreeFooter threeFooter = new ThreeFooter();
         boolean result =
-				// 今日收盘大于MA5，今日红K，今日收盘大于昨日高点，昨日低点在MA5下方
+				// 今日收盘大于MA5，今日红K，今日收盘大于昨日高点
 				matchTodayK() &&
 				// MA5头头高底底高
 				matchMA5HeaderFooterHigher(threeFooter) &&
@@ -27,8 +27,6 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 				matchPeriodEven(threeFooter) &&
 				// 高点和低点之间的震动幅度大
 				matchHighLowWave(threeFooter);
-				// 3个脚点低点可以连成一线
-//				matchFooterInOneLine(threeFooter);
 		if (result) {
 			stockResult.setPeriod(threeFooter.getPeriod1() + " ~ " + threeFooter.getPeriod2());
 		}
@@ -39,14 +37,14 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
     	double tclose = todayStock.getTclose();
     	double topen = todayStock.getTopen();
     	double yhigh = chartStocks.get(0).getThigh();
-    	double ylow = chartStocks.get(0).getTlow();
+//    	double ylow = chartStocks.get(0).getTlow();
     	double tMa5 = calcTodayMa(5, tclose);
-		double yMa5 = calcMa(5, 0);
+//		double yMa5 = calcMa(5, 0);
 		return
 				(tclose > tMa5) &&
 				(tclose > topen) &&
-				(tclose > yhigh) &&
-				(ylow < yMa5);
+				(tclose > yhigh);
+//				(ylow < yMa5);
 	}
 
 	private boolean matchMA5HeaderFooterHigher(ThreeFooter threeFooter) {
