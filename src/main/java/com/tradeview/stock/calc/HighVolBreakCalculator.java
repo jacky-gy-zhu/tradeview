@@ -88,6 +88,7 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 
 		double avgAmount = totalAmount/chartStocks.size();
 		if (!Constants.only_read_local && avgAmount < Param.AVG_AMOUNT_VOL_TOLERANCE) {
+			System.out.println("[-]");
 			throw new RuntimeException("small amount vol stock");
 		}
 		

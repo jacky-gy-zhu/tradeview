@@ -1,5 +1,6 @@
 package com.tradeview.stock.model;
 
+import com.tradeview.stock.api.SinaApi;
 import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
 import org.json.JSONArray;
@@ -77,10 +78,14 @@ public class StockChart {
         // quote
         try {
             this.stockData = convertStockDataFromJsonObject(quote);
+            this.stockData.setLclose(quote.getDouble("previousClose"));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            //  从新浪api获取当前数据
+            this.stockData = SinaApi.getLiveStockData(symbol);
+            if (this.stockData == null) {
+                throw new RuntimeException(e);
+            }
         }
-        this.stockData.setLclose(quote.getDouble("previousClose"));
 
         // chart
         this.chartStocks = new ArrayList();
