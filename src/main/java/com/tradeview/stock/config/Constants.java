@@ -10,7 +10,7 @@ public class Constants {
 
     public static String iextapis_token = "pk_8b34a5210db94eb3be6f3675277b3746";
 
-    public static String localDataRootPath = "/Users/jackyzhu/Documents/workspace/projects/private/tradeview/src/main/java/com/tradeview/stock/data";
+    public static String localDataRootPath = "/Users/jackyzhu/Documents/workspace/projects/private/tradeview-data/data";
 
     public static String codesPath = localDataRootPath + "/valid-stock-uscodes-2019-06-08.txt";
     public static String exclusionPath = localDataRootPath + "/exclusionData.txt";
