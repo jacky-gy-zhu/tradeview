@@ -8,6 +8,10 @@ import java.util.Date;
 
 public class SinaApi {
 
+    // http://image.sinajs.cn/newchart/v5/usstock/daily/x.gif
+
+    // http://hq.sinajs.cn/list=gb_x
+
     private static String url = "http://hq.sinajs.cn/list=gb_";
 
     public static StockData getLiveStockData(String symbol) {
