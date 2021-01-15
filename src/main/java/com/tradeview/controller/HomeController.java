@@ -6,6 +6,7 @@ import com.tradeview.stock.model.ResultReport;
 import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.service.ScanJob;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -36,6 +37,18 @@ public class HomeController {
         Constants.only_read_local = true;
         Constants.throw_if_error_and_print_url = false;
         Param.T_PLUS = 0;
+
+        return generateHtml("Review US Stock Select");
+    }
+
+    @ResponseBody
+    @RequestMapping("/review/{t}")
+    public String reviewT(@PathVariable("t") int t) {
+
+        Constants.allow_override_json_data = false; // 仅在收盘后设置true
+        Constants.only_read_local = true;
+        Constants.throw_if_error_and_print_url = false;
+        Param.T_PLUS = t;
 
         return generateHtml("Review US Stock Select");
     }
