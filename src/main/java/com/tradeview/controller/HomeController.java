@@ -25,19 +25,19 @@ public class HomeController {
         Constants.throw_if_error_and_print_url = false;
         Param.T_PLUS = 0;
 
-        return generateHtml();
+        return generateHtml("Live US Stock Select");
     }
 
     @ResponseBody
-    @RequestMapping("/history")
-    public String history() {
+    @RequestMapping("/review")
+    public String review() {
 
         Constants.allow_override_json_data = false; // 仅在收盘后设置true
         Constants.only_read_local = true;
         Constants.throw_if_error_and_print_url = false;
         Param.T_PLUS = 0;
 
-        return generateHtml();
+        return generateHtml("Review US Stock Select");
     }
 
     @ResponseBody
@@ -52,9 +52,9 @@ public class HomeController {
         return "update is done : " + Constants.SDF2.format(new Date());
     }
 
-    private String generateHtml() {
+    private String generateHtml(String title) {
         StringBuilder html = new StringBuilder();
-        html.append("<html><head><title>Live US Stock Select</title></head><body>");
+        html.append("<html><head><title>" + title + "</title></head><body>");
         ScanJob scanJob = new ScanJob();
         ResultReport resultReport = scanJob.runScan(false);
         if(resultReport != null) {
