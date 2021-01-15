@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,18 @@ public class HomeController {
         Param.T_PLUS = 0;
 
         return generateHtml();
+    }
+
+    @ResponseBody
+    @RequestMapping("/update")
+    public String update() {
+
+        Constants.allow_override_json_data = true; // 仅在收盘后设置true
+        Constants.only_read_local = false;
+        Constants.throw_if_error_and_print_url = false;
+        Param.T_PLUS = 0;
+
+        return "update is done : " + Constants.SDF2.format(new Date());
     }
 
     private String generateHtml() {
