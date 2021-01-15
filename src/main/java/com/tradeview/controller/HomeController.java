@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,48 +20,66 @@ public class HomeController {
     @RequestMapping("/live")
     public String live() {
 
-        Constants.allow_override_json_data = false; // 仅在收盘后设置true
-        Constants.only_read_local = false;
-        Constants.throw_if_error_and_print_url = false;
-        Param.T_PLUS = 0;
+        if (!Constants.OPERATION_LOCKED) {
+            try {
+                Constants.OPERATION_LOCKED = true;
 
-        return generateHtml("Live US Stock Select");
+                Constants.allow_override_json_data = false; // 仅在收盘后设置true
+                Constants.only_read_local = false;
+                Constants.throw_if_error_and_print_url = false;
+                Param.T_PLUS = 0;
+
+                return generateHtml("Live US Stock Select");
+            } finally {
+                Constants.OPERATION_LOCKED = false;
+            }
+        } else {
+            return "locked";
+        }
     }
 
     @ResponseBody
     @RequestMapping("/review")
     public String review() {
 
-        Constants.allow_override_json_data = false; // 仅在收盘后设置true
-        Constants.only_read_local = true;
-        Constants.throw_if_error_and_print_url = false;
-        Param.T_PLUS = 0;
+        if (!Constants.OPERATION_LOCKED) {
+            try {
+                Constants.OPERATION_LOCKED = true;
 
-        return generateHtml("Review US Stock Select");
+                Constants.allow_override_json_data = false; // 仅在收盘后设置true
+                Constants.only_read_local = true;
+                Constants.throw_if_error_and_print_url = false;
+                Param.T_PLUS = 0;
+
+                return generateHtml("Review latest US Stock (Data updated after 17:00)");
+            } finally {
+                Constants.OPERATION_LOCKED = false;
+            }
+        } else {
+            return "locked";
+        }
     }
 
     @ResponseBody
     @RequestMapping("/review/{t}")
     public String reviewT(@PathVariable("t") int t) {
 
-        Constants.allow_override_json_data = false; // 仅在收盘后设置true
-        Constants.only_read_local = true;
-        Constants.throw_if_error_and_print_url = false;
-        Param.T_PLUS = t;
+        if (!Constants.OPERATION_LOCKED) {
+            try {
+                Constants.OPERATION_LOCKED = true;
 
-        return generateHtml("Review US Stock Select");
-    }
+                Constants.allow_override_json_data = false; // 仅在收盘后设置true
+                Constants.only_read_local = true;
+                Constants.throw_if_error_and_print_url = false;
+                Param.T_PLUS = t;
 
-    @ResponseBody
-    @RequestMapping("/update")
-    public String update() {
-
-        Constants.allow_override_json_data = true; // 仅在收盘后设置true
-        Constants.only_read_local = false;
-        Constants.throw_if_error_and_print_url = false;
-        Param.T_PLUS = 0;
-
-        return "update is done : " + Constants.SDF2.format(new Date());
+                return generateHtml("Review US Stock : " + t + " days ago");
+            } finally {
+                Constants.OPERATION_LOCKED = false;
+            }
+        } else {
+            return "locked";
+        }
     }
 
     private String generateHtml(String title) {

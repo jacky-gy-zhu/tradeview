@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 
 public class Constants {
 
+    public static boolean OPERATION_LOCKED = false;
+
     public static boolean allow_override_json_data = false;
     public static boolean only_read_local = false;
     public static boolean throw_if_error_and_print_url = false;
