@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ScanJob {
 
-    public void runScan(boolean isTest) {
+    public ResultReport runScan(boolean isTest) {
         long begin = System.currentTimeMillis();
         System.out.println("开始检索...");
 
@@ -62,10 +62,12 @@ public class ScanJob {
                         }
                     }
                 }
+                return resultReport;
             }
         }
         System.out.println();
         System.out.println("Total cost: "+((System.currentTimeMillis()-begin)/1000)+"s");
+        return null;
     }
 
 }
