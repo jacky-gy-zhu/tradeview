@@ -111,19 +111,20 @@ public class HighVolBreakCalculator extends AbstractCalculator {
 		double ma30 = calcTodayMa(30, tclose);
 
 		// 昨日
-		double _ma5 = calcMa(5, index);
-		double _ma10 = calcMa(10, index);
+//		double _ma5 = calcMa(5, index);
+//		double _ma10 = calcMa(10, index);
 		double _ma20 = calcMa(20, index);
-		double _ma30 = calcMa(30, index);
+//		double _ma30 = calcMa(30, index);
 
 		return tclose > ma5 &&
 				ma5 > ma10 &&
 				ma10 > ma20 &&
 				ma20 > ma30 &&
 //				ma5 >= _ma5 &&
-				ma10 >= _ma10 &&
-				ma20 >= _ma20 &&
-				ma30 >= _ma30 &&
+//				ma10 >= _ma10 &&
+				// MA20向上
+				ma20 > _ma20 &&
+//				ma30 > _ma30 &&
 				calcRate(ma5, ma30) < Param.MA5_MA30_GAP_RATE &&
 				calcRate(ma5, ma20) < Param.MA5_MA20_GAP_RATE &&
 				calcRate(ma5, ma10) < Param.MA5_MA10_GAP_RATE;

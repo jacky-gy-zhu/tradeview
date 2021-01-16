@@ -41,11 +41,16 @@ public class BackToRaiseAndBreakTopCalculator extends BackToRaiseCalculator {
 		// 今日最高价，今日上影线很小
 		double thigh = todayStock.getThigh();
 
+		// MA20向上
+		double ma20 = calcTodayMa(20, tclose);
+		double _ma20 = calcMa(20, 0);
+
 		return (tclose > topPrice) &&
 				calcRate(tclose, topPrice) < Param.EXCEED_RATE &&
 				(tclose > topen) &&
 				(calcHighShallowRate(topen, thigh, tclose) < Param.TODAY_HIGH_SHADOW_RATE) &&
-				(calcRedKRate(topen, tclose) > Param.TODAY_RED_K_RATE);
+				(calcRedKRate(topen, tclose) > Param.TODAY_RED_K_RATE) &&
+				(ma20 > _ma20);
 	}
 
 	protected boolean matchMa() {

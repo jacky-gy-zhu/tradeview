@@ -25,7 +25,15 @@ public class AbcCallbackCalculator extends AbstractCalculator {
     }
 
 	private boolean matchTodayK() {
-		return todayStock.getThigh() > chartStocks.get(0).getThigh();
+		double tclose = todayStock.getTclose();
+
+		// MA20向上
+		double ma20 = calcTodayMa(20, tclose);
+		double _ma20 = calcMa(20, 0);
+
+		return
+				(todayStock.getThigh() > chartStocks.get(0).getThigh()) &&
+				(ma20 > _ma20);
 	}
 
 	private boolean matchRightHigher() {

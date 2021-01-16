@@ -40,10 +40,15 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 //    	double ylow = chartStocks.get(0).getTlow();
     	double tMa5 = calcTodayMa(5, tclose);
 //		double yMa5 = calcMa(5, 0);
+
+		// MA20向上
+		double ma20 = calcTodayMa(20, tclose);
+		double _ma20 = calcMa(20, 0);
 		return
 				(tclose > tMa5) &&
 				(tclose > topen) &&
-				(tclose > yhigh);
+				(tclose > yhigh) &&
+				(ma20 > _ma20);
 //				(ylow < yMa5);
 	}
 
