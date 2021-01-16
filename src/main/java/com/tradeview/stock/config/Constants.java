@@ -1,6 +1,7 @@
 package com.tradeview.stock.config;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class Constants {
 
@@ -20,7 +21,7 @@ public class Constants {
     public static String testPath = localDataRootPath + "/test.txt";
     public static String stockDataJsonFolder = localDataRootPath + "/json";
 
-    public static SimpleDateFormat SDF = new SimpleDateFormat("MMM d, yyyy");
+    public static SimpleDateFormat SDF = new SimpleDateFormat("MMMMM d, yyyy", new Locale("en", "AU"));
     public static SimpleDateFormat SDF2 = new SimpleDateFormat("yyyy-MM-dd");
 
 }
