@@ -99,7 +99,7 @@ public class HomeController {
                 "</head><body><div id=\"white-cover\" style=\"\n" +
                 "    position: absolute;\n" +
                 "    width: "+(36+10*Param.T_PLUS)+"px;\n" +
-                "    height: 100%;\n" +
+                "    height: 100000px;\n" +
                 "    right: 0px;\n" +
                 "    z-index: 999999999;\n" +
                 "    background-color: #fff;\n" +
