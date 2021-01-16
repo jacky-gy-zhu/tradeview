@@ -13,7 +13,7 @@
 
     <groupId>org.tradeview</groupId>
     <artifactId>tradeview</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>springboot</name>
     <description>US Stock Trade</description>
     <build>

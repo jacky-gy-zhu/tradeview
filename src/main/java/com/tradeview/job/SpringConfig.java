@@ -13,7 +13,8 @@ import java.util.Date;
 @EnableScheduling
 public class SpringConfig {
 
-    @Scheduled(cron = "0 0 17 * * 2-6")
+    // 中国14点 = 澳洲17点
+    @Scheduled(cron = "0 0 14 * * 2-6")
     public void updateStockData() {
 
         if (!Constants.OPERATION_LOCKED) {
