@@ -9,6 +9,7 @@ import com.tradeview.stock.model.StockChart;
 import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.util.ConnectionUtil;
 import com.tradeview.stock.util.StreamUtils;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -175,14 +176,32 @@ public class Iextrading {
 		}
 	}
 
+	/**
+	 * 前提条件是第二日的下午5点运行程序
+	 * 比实际天数要少一天，因为美国和澳洲的时差关系
+	 * @param smdate
+	 * @param bdate
+	 * @return
+	 */
 	public int daysBetween(Date smdate,Date bdate) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(smdate);
-		long time1 = cal.getTimeInMillis();
-		cal.setTime(bdate);
-		long time2 = cal.getTimeInMillis();
-		long between_days = (time2 - time1) / (1000 * 3600 * 24);
-		return Integer.parseInt(String.valueOf(between_days));
+		DateTime start = new DateTime(smdate).withTimeAtStartOfDay();
+		DateTime end = new DateTime(bdate).withTimeAtStartOfDay();
+		if (start.isEqual(end)) {
+			return 0;
+		} else {
+			int count = 0;
+			do {
+				start = start.plusDays(1);
+				if (start.getDayOfWeek() != 6 && start.getDayOfWeek() != 7) {
+					count++;
+				}
+			} while (start.isBefore(end));
+			if (count > 1) {
+				return count-1;
+			} else {
+				return count;
+			}
+		}
 	}
 
 	private JSONArray addJSONArrayToStore(String symbol, JSONArray chart) {

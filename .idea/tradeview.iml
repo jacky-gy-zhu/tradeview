@@ -66,5 +66,6 @@
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk14:1.64" level="project" />
     <orderEntry type="library" name="Maven: org.xhtmlrenderer:flying-saucer-core:9.1.20" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: joda-time:joda-time:2.10.9" level="project" />
   </component>
 </module>
