@@ -10,7 +10,7 @@ public class Param {
 	public static float GOLD_CUT_RATE2 = 0.809f;
 
 	// 排查小量交易股票
-	public static float AVG_AMOUNT_VOL_TOLERANCE = 500 * 10000;
+	public static float AVG_AMOUNT_VOL_TOLERANCE = 300 * 10000;
 	
 	// 计算周期
 	public static int MONTH_PERIOD = 2;
