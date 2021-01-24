@@ -5,6 +5,7 @@ import com.tradeview.stock.config.Param;
 import com.tradeview.stock.model.ResultReport;
 import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.service.ScanJob;
+import com.tradeview.stock.util.StreamUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,6 +107,10 @@ public class HomeController {
                     "    z-index: 999999999;\n" +
                     "    background-color: #fff;\n" +
                     "\"></div>");
+            String xContent = StreamUtils.getFileContent(Constants.stockDataJsonFolder+"/x.json");
+            // [{"date":"2021-01-22"
+            String latestDate = xContent.substring(9, 20);
+            html.append("<h2>" + latestDate + "</h2>");
         }
         ScanJob scanJob = new ScanJob();
         ResultReport resultReport = scanJob.runScan(false);
