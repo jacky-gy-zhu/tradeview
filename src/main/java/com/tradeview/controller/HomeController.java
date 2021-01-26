@@ -83,6 +83,32 @@ public class HomeController {
         }
     }
 
+
+    @ResponseBody
+    @RequestMapping("/update")
+    public String update() {
+
+        if (!Constants.OPERATION_LOCKED) {
+            try {
+                Constants.OPERATION_LOCKED = true;
+
+                Constants.allow_override_json_data = true; // 仅在收盘后设置true
+                Constants.only_read_local = false;
+                Constants.throw_if_error_and_print_url = false;
+                Param.T_PLUS = 0;
+
+                ScanJob scanJob = new ScanJob();
+                scanJob.runScan(false);
+
+            } finally {
+                Constants.OPERATION_LOCKED = false;
+            }
+            return "done";
+        } else {
+            return "locked";
+        }
+    }
+
     private String generateHtml(String title, boolean live) {
         StringBuilder html = new StringBuilder();
         html.append("<html><head><title>" + title + "</title>" +
