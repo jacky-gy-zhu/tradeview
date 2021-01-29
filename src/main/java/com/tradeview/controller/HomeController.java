@@ -135,36 +135,42 @@ public class HomeController {
                     "\"></div>");
             String xContent = StreamUtils.getFileContent(Constants.stockDataJsonFolder+"/x.json");
             // [{"date":"2021-01-22"
-            String latestDate = xContent.substring(9, 20);
+            String latestDate = xContent.substring(10, 20);
             html.append("<h2>" + latestDate + "</h2>");
+        } else {
+            html.append("<h2>盘中行情</h2>");
         }
         ScanJob scanJob = new ScanJob();
         ResultReport resultReport = scanJob.runScan(false);
         if(resultReport != null) {
             Map<String, List<StockResult>> resultMap =  resultReport.getResultMap();
-            for (Map.Entry<String, List<StockResult>> entry : resultMap.entrySet()) {
-                String strategy = entry.getKey();
-                List<StockResult> stockResults = entry.getValue();
-                html.append("<hr>");
-                html.append("<h1>"+strategy + " (" + stockResults.size() + ")</h1>");
-                for(StockResult stock : stockResults) {
-                    html.append("<div>");
-                    if (Param.T_PLUS > 0) {
-                        html.append(stock.getDate() + " : ");
+            if (resultMap != null && resultMap.size() > 0) {
+                for (Map.Entry<String, List<StockResult>> entry : resultMap.entrySet()) {
+                    String strategy = entry.getKey();
+                    List<StockResult> stockResults = entry.getValue();
+                    html.append("<hr>");
+                    html.append("<h1>"+strategy + " (" + stockResults.size() + ")</h1>");
+                    for(StockResult stock : stockResults) {
+                        html.append("<div>");
+                        if (Param.T_PLUS > 0) {
+                            html.append(stock.getDate() + " : ");
+                        }
+                        html.append(stock.getSymbol());
+                        if (stock.getName() != null && stock.getName().length() > 0) {
+                            html.append(" - " + stock.getName());
+                        }
+                        if (stock.getRate() != null) {
+                            html.append(" (" + (float)((int)(stock.getRate()*100))/100f + ") ");
+                        }
+                        if (stock.getPeriod() != null) {
+                            html.append(" (" + stock.getPeriod() + ") ");
+                        }
+                        html.append("<br><img src=\"http://image.sinajs.cn/newchart/v5/usstock/daily/" + stock.getSymbol() + ".gif\">");
+                        html.append("</div>");
                     }
-                    html.append(stock.getSymbol());
-                    if (stock.getName() != null && stock.getName().length() > 0) {
-                        html.append(" - " + stock.getName());
-                    }
-                    if (stock.getRate() != null) {
-                        html.append(" (" + (float)((int)(stock.getRate()*100))/100f + ") ");
-                    }
-                    if (stock.getPeriod() != null) {
-                        html.append(" (" + stock.getPeriod() + ") ");
-                    }
-                    html.append("<br><img src=\"http://image.sinajs.cn/newchart/v5/usstock/daily/" + stock.getSymbol() + ".gif\">");
-                    html.append("</div>");
                 }
+            } else {
+                html.append("<h5>无筛选结果</h5>");
             }
             if (!live) {
                 html.append("<script type=\"text/javascript\">\n" +
