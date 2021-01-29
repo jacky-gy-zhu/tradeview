@@ -14,7 +14,7 @@ import java.util.Date;
 public class SpringConfig {
 
     // 中国14点 = 澳洲17点
-    @Scheduled(cron = "0 10 17 * * 2-6")
+    @Scheduled(cron = "0 0 17 * * 2-6")
     public void updateStockData() {
 
         System.out.println("schedule tasks begin to updateStockData - " + Constants.SDF2.format(new Date()));

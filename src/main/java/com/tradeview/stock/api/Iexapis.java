@@ -9,7 +9,7 @@ public class Iexapis {
 	/*
 		https://cloud.iexapis.com/stable/stock/market/batch?symbols=x&types=chart&range=3m&last=1&token=pk_8b34a5210db94eb3be6f3675277b3746
 	 */
-	public static String getUrlForDailyK(String symbol, int month, int last) {
+	public static String getUrlForDailyK(String symbolGroupStr, int month, int last) {
 		if (last == 0) {
 			last = month*22;
 		}
@@ -17,7 +17,7 @@ public class Iexapis {
 		if (!Constants.allow_override_json_data) {
 			quote = "quote,";
 		}
-		String url = "https://cloud.iexapis.com/stable/stock/market/batch?symbols="+symbol+"&types="+quote+"chart&range="+month+"m&last="+last+"&token="+ Constants.iextapis_token;
+		String url = "https://cloud.iexapis.com/stable/stock/market/batch?symbols="+symbolGroupStr+"&types="+quote+"chart&range="+month+"m&last="+last+"&token="+ Constants.iextapis_token;
 		if (Constants.throw_if_error_and_print_url) {
 			System.out.println(url);
 		}

@@ -1,6 +1,7 @@
 package com.tradeview.stock.service;
 
 import com.tradeview.stock.api.Iexapis;
+import com.tradeview.stock.api.SinaApi;
 import com.tradeview.stock.calc.*;
 import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
@@ -38,7 +39,7 @@ public class Iextrading {
     }
 
 	public ResultReport selectStocks(String[] codeArr, List<String> excludeCodeList) {
-
+		boolean readLatestStockFromSina = Constants.allow_override_json_data == false && Constants.only_read_local == false;
 		ResultReport resultReport = new ResultReport();
 		Map<String, List<StockResult>> resultMap = new HashMap<>();
 		resultReport.setResultMap(resultMap);
@@ -53,8 +54,12 @@ public class Iextrading {
 				String iextapisUrl = Iexapis.getUrlForDailyK(symbolGroupStr, Param.MONTH_PERIOD, last);
 				if(iextapisUrl != null) {
 					JSONObject contentJson = null;
-					if (!Constants.only_read_local) {
+					if (!Constants.only_read_local && !readLatestStockFromSina) {
 						contentJson = ConnectionUtil.getInstance().getJsonObject(iextapisUrl, "UTF-8");
+					}
+					Map<String, JSONObject> quoteMap = new HashMap();
+					if (readLatestStockFromSina) {
+						quoteMap = SinaApi.getLiveStockDataMap(SinaApi.SYMBOL_PREFIX + symbolGroupStr.replace(",", "," + SinaApi.SYMBOL_PREFIX));
 					}
 					for(String symbol : symbols) {
 						if(contentJson != null ) {
@@ -97,23 +102,39 @@ public class Iextrading {
 
 							}
 						} else {
-							try {
+							if (readLatestStockFromSina) {
+								// read current
+								JSONObject quote = quoteMap.get(symbol);
 								JSONArray totalChart = addJSONArrayToStore(symbol, null);
-								if(totalChart != null) {
-									StockChart stockChart = new StockChart(symbol, totalChart);
+								if(quote != null && totalChart != null) {
+									StockChart stockChart = new StockChart(quote, totalChart);
 									if (stockChart.getStockData() == null) {
-										System.out.println("symbol error : " + symbol);
-										continue;
+										System.out.println("symbol error :" + symbol);
 									}
 									matchStrategies(resultMap, symbol, stockChart);
 
 									count++;
 								}
-							} catch(Exception e) {
-								if (Constants.throw_if_error_and_print_url) {
-									throw e;
-								} else {
-									System.err.println(symbol);
+							} else {
+								// review history
+								try {
+									JSONArray totalChart = addJSONArrayToStore(symbol, null);
+									if(totalChart != null) {
+										StockChart stockChart = new StockChart(symbol, totalChart);
+										if (stockChart.getStockData() == null) {
+											System.out.println("symbol error : " + symbol);
+											continue;
+										}
+										matchStrategies(resultMap, symbol, stockChart);
+
+										count++;
+									}
+								} catch(Exception e) {
+									if (Constants.throw_if_error_and_print_url) {
+										throw e;
+									} else {
+										System.err.println(symbol);
+									}
 								}
 							}
 						}
