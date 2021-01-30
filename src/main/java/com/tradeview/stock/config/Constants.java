@@ -23,5 +23,6 @@ public class Constants {
 
     public static SimpleDateFormat SDF = new SimpleDateFormat("MMMMM d, yyyy", new Locale("en", "AU"));
     public static SimpleDateFormat SDF2 = new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat SDF3 = new SimpleDateFormat("yyyy-MM-dd EEEE");
 
 }

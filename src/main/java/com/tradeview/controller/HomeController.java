@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -136,7 +138,11 @@ public class HomeController {
             String xContent = StreamUtils.getFileContent(Constants.stockDataJsonFolder+"/x.json");
             // [{"date":"2021-01-22"
             String latestDate = xContent.substring(10, 20);
-            html.append("<h2>" + latestDate + "</h2>");
+            try {
+                Date lastDate = Constants.SDF2.parse(latestDate);
+                html.append("<h2>" + Constants.SDF3.format(lastDate) + "</h2>");
+            } catch (ParseException e) {
+            }
         } else {
             html.append("<h2>盘中行情</h2>");
         }
