@@ -102,22 +102,22 @@ public class Iextrading {
 
 							}
 						} else {
-							if (readLatestStockFromSina) {
-								// read current
-								JSONObject quote = quoteMap.get(symbol);
-								JSONArray totalChart = addJSONArrayToStore(symbol, null);
-								if(quote != null && totalChart != null) {
-									StockChart stockChart = new StockChart(quote, totalChart);
-									if (stockChart.getStockData() == null) {
-										System.out.println("symbol error :" + symbol);
-									}
-									matchStrategies(resultMap, symbol, stockChart);
+							try {
+								if (readLatestStockFromSina) {
+									// read current
+									JSONObject quote = quoteMap.get(symbol);
+									JSONArray totalChart = addJSONArrayToStore(symbol, null);
+									if(quote != null && totalChart != null) {
+										StockChart stockChart = new StockChart(quote, totalChart);
+										if (stockChart.getStockData() == null) {
+											System.out.println("symbol error :" + symbol);
+										}
+										matchStrategies(resultMap, symbol, stockChart);
 
-									count++;
-								}
-							} else {
-								// review history
-								try {
+										count++;
+									}
+								} else {
+									// review history
 									JSONArray totalChart = addJSONArrayToStore(symbol, null);
 									if(totalChart != null) {
 										StockChart stockChart = new StockChart(symbol, totalChart);
@@ -129,12 +129,12 @@ public class Iextrading {
 
 										count++;
 									}
-								} catch(Exception e) {
-									if (Constants.throw_if_error_and_print_url) {
-										throw e;
-									} else {
-										System.err.println(symbol);
-									}
+								}
+							} catch(Exception e) {
+								if (Constants.throw_if_error_and_print_url) {
+									throw e;
+								} else {
+									System.err.println(symbol);
 								}
 							}
 						}
