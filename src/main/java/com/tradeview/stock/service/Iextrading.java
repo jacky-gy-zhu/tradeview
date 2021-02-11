@@ -152,10 +152,10 @@ public class Iextrading {
 	private void matchStrategies(Map<String, List<StockResult>> resultMap, String symbol, StockChart stockChart) {
 
 		handleResultMap(resultMap, symbol, stockChart, new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
-//		handleResultMap(resultMap, symbol, stockChart, new BackToRaiseCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 		handleResultMap(resultMap, symbol, stockChart, new BackToRaiseAndBreakTopCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 		handleResultMap(resultMap, symbol, stockChart, new HeaderFooterHigherCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 		handleResultMap(resultMap, symbol, stockChart, new AbcCallbackCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+		handleResultMap(resultMap, symbol, stockChart, new VbackCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 	}
 
 	private void handleResultMap(Map<String, List<StockResult>> resultMap, String symbol, StockChart stockChart, Calculator calculator) {

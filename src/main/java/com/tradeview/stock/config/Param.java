@@ -63,4 +63,9 @@ public class Param {
 	public static int ABC_CALLBACK_MAX_DAY_RANGE = 22;
 	public static int ABC_CALLBACK_MIN_GAP = 3;
 	public static float ABC_CALLBACK_MIN_HIGH_LOW_RATE = 0.1f;
+
+	// V型反弹
+	public static float BEAR_DROP_MIN = 0.2f;
+	public static float BEAR_DROP_BIG_DROP_MIN = 0.05f;
+	public static int BEAR_DROP_BIG_DROP_DAYS = 3;
 }
