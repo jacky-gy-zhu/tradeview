@@ -165,10 +165,11 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 			double quit = chartStocks.get(0).getTclose();
 			double rate = (target - buy) / (buy - quit);
 			double targetRate = (target - buy) / buy;
+			double lossRate = (quit - buy) / buy;
 			riskManagement.setBuy(buy);
 			riskManagement.setLoss(quit);
 			riskManagement.setTarget(target);
-			riskManagement.setDescription("目标价：" + Constants.DF.format(riskManagement.getTarget()) + " (" + (int) (targetRate * 100) + "%)"
+			riskManagement.setDescription("目标价：" + Constants.DF.format(riskManagement.getTarget()) + " (+" + (int) (targetRate * 100) + "%，" + (int)(lossRate*100) + "%)"
 					+ "，止损价：" + Constants.DF.format(riskManagement.getLoss())
 					+ "，盈亏比：" + (int) rate + ":1");
 			riskManagement.setRate(rate);
