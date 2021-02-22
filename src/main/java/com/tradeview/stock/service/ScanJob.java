@@ -6,10 +6,7 @@ import com.tradeview.stock.model.ResultReport;
 import com.tradeview.stock.model.StockResult;
 import com.tradeview.stock.util.StreamUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ScanJob {
 
@@ -42,6 +39,17 @@ public class ScanJob {
                     for (Map.Entry<String, List<StockResult>> entry : resultMap.entrySet()) {
                         String strategy = entry.getKey();
                         List<StockResult> stockResults = entry.getValue();
+                        Collections.sort(stockResults, (o1, o2) -> {
+                            double s1 = o1.getSort();
+                            double s2 = o2.getSort();
+                            if (s1 > s2) {
+                                return -1;
+                            } else if (s1 < s2) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        });
                         System.out.println("-----------------------------------------");
                         System.out.println(strategy + " (" + stockResults.size() + ")");
                         for(StockResult stock : stockResults) {

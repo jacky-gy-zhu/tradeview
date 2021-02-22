@@ -9,6 +9,8 @@ public class StockResult {
     private Double rate;
     private String period;
 
+    private double sort;
+
     public String getDate() {
         return date;
     }
@@ -47,5 +49,13 @@ public class StockResult {
 
     public void setPeriod(String period) {
         this.period = period;
+    }
+
+    public double getSort() {
+        return sort;
+    }
+
+    public void setSort(double sort) {
+        this.sort = sort;
     }
 }

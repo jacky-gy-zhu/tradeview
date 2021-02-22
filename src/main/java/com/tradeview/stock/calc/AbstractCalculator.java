@@ -208,6 +208,9 @@ public abstract class AbstractCalculator implements Calculator {
                 index = i;
             }
         }
+        if (index == 0) {
+            low = chartStocks.get(from).getTlow();
+        }
         return new StockPoint(low, index);
     }
 

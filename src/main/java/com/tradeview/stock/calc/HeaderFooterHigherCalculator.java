@@ -1,10 +1,8 @@
 package com.tradeview.stock.calc;
 
+import com.tradeview.stock.config.Constants;
 import com.tradeview.stock.config.Param;
-import com.tradeview.stock.model.StockData;
-import com.tradeview.stock.model.StockPoint;
-import com.tradeview.stock.model.StockResult;
-import com.tradeview.stock.model.ThreeFooter;
+import com.tradeview.stock.model.*;
 
 import java.util.List;
 
@@ -16,19 +14,22 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 
     public boolean match(StockResult stockResult) {
 		ThreeFooter threeFooter = new ThreeFooter();
+		RiskManagement riskManagement = new RiskManagement();
         boolean result =
 				// 今日收盘大于MA5，今日红K，今日收盘大于昨日高点
 				matchTodayK() &&
 				// MA5头头高底底高
 				matchMA5HeaderFooterHigher(threeFooter) &&
 				// K线（高点和低点）头头高底底高
-				matchHighLowHeaderFooterHigher(threeFooter) &&
+				matchHighLowHeaderFooterHigher(threeFooter, riskManagement) &&
 				// 前2次回调幅度差不多
 				matchPeriodEven(threeFooter) &&
 				// 高点和低点之间的震动幅度大
 				matchHighLowWave(threeFooter);
 		if (result) {
-			stockResult.setPeriod(threeFooter.getPeriod1() + " ~ " + threeFooter.getPeriod2());
+//			stockResult.setPeriod(threeFooter.getPeriod1() + " ~ " + threeFooter.getPeriod2());
+			stockResult.setPeriod(riskManagement.getDescription());
+			stockResult.setSort(riskManagement.getRate());
 		}
         return result;
     }
@@ -126,7 +127,7 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 				(f1 > f2 && f2 > f3);
 	}
 
-	private boolean matchHighLowHeaderFooterHigher(ThreeFooter threeFooter) {
+	private boolean matchHighLowHeaderFooterHigher(ThreeFooter threeFooter, RiskManagement riskManagement) {
 		int p1 = threeFooter.getP1();
 		int p2 = threeFooter.getP2();
 		int p3 = threeFooter.getP3();
@@ -150,10 +151,30 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 		threeFooter.setPeriod1(footer2Obj.getIndex() - footer1Obj.getIndex());
 		threeFooter.setPeriod2(footer3Obj.getIndex() - footer2Obj.getIndex());
 
-		return
+		boolean success =
 				(header1 > header2) &&
 				((footer1 > footer2) && (footer2 > footer3)) &&
 				(footer1 > header2);
+
+		if (success) {
+			double preH = header1;
+			double preL = footer2;
+			double startL = footer1;
+			double target = preH - preL + startL;
+			double buy = todayStock.getTclose();
+			double quit = chartStocks.get(0).getTclose();
+			double rate = (target - buy) / (buy - quit);
+			double targetRate = (target - buy) / buy;
+			riskManagement.setBuy(buy);
+			riskManagement.setLoss(quit);
+			riskManagement.setTarget(target);
+			riskManagement.setDescription("目标价：" + Constants.DF.format(riskManagement.getTarget()) + " (" + (int) (targetRate * 100) + "%)"
+					+ "，止损价：" + Constants.DF.format(riskManagement.getLoss())
+					+ "，盈亏比：" + (int) rate + ":1");
+			riskManagement.setRate(rate);
+		}
+
+		return success;
 	}
 
 	private boolean matchPeriodEven(ThreeFooter threeFooter) {

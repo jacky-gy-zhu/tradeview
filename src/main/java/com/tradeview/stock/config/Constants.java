@@ -1,5 +1,6 @@
 package com.tradeview.stock.config;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -24,5 +25,6 @@ public class Constants {
     public static SimpleDateFormat SDF = new SimpleDateFormat("MMMMM d, yyyy", new Locale("en", "AU"));
     public static SimpleDateFormat SDF2 = new SimpleDateFormat("yyyy-MM-dd");
     public static SimpleDateFormat SDF3 = new SimpleDateFormat("yyyy-MM-dd EEEE");
+    public static DecimalFormat DF = new DecimalFormat("0.00");
 
 }
