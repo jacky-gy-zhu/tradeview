@@ -152,7 +152,8 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 
 		return
 				(header1 > header2) &&
-				((footer1 > footer2) && (footer2 > footer3));
+				((footer1 > footer2) && (footer2 > footer3)) &&
+				(footer1 > header2);
 	}
 
 	private boolean matchPeriodEven(ThreeFooter threeFooter) {
