@@ -11,6 +11,7 @@ public class Application {
 
     public static void main(String[] args) throws ParseException {
 
+        Constants.is_short = false;
         // Please note this config!!! (交易期间必须设置 allow_override_json_data=false )
         Constants.allow_override_json_data = false; // 仅在收盘后设置true
         Constants.only_read_local = true;

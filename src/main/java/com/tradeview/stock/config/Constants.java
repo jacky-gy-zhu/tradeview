@@ -11,6 +11,7 @@ public class Constants {
     public static boolean allow_override_json_data = false;
     public static boolean only_read_local = false;
     public static boolean throw_if_error_and_print_url = false;
+    public static boolean is_short = false;
 
     public static String iextapis_token = "pk_8b34a5210db94eb3be6f3675277b3746";
 
