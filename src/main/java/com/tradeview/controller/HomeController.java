@@ -43,6 +43,29 @@ public class HomeController {
     }
 
     @ResponseBody
+    @RequestMapping("/live2")
+    public String live2() {
+
+        if (!Constants.OPERATION_LOCKED) {
+            try {
+                Constants.OPERATION_LOCKED = true;
+
+                Constants.is_short = true;
+                Constants.allow_override_json_data = false; // 仅在收盘后设置true
+                Constants.only_read_local = false;
+                Constants.throw_if_error_and_print_url = false;
+                Param.T_PLUS = 0;
+
+                return generateHtml("Live US Stock Select", true);
+            } finally {
+                Constants.OPERATION_LOCKED = false;
+            }
+        } else {
+            return "locked";
+        }
+    }
+
+    @ResponseBody
     @RequestMapping("/review")
     public String review() {
 
