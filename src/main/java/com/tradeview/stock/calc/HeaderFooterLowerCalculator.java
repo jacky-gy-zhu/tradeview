@@ -42,12 +42,12 @@ public class HeaderFooterLowerCalculator extends AbstractCalculator {
     }
 
     private boolean matchMA() {
-        double m5_0 = calcMa(5, 0);
-        double m5_1 = calcMa(5, 1);
-        double m5_2 = calcMa(5, 2);
-        double m5_3 = calcMa(5, 3);
-        double m5_4 = calcMa(5, 4);
-        double m5_5 = calcMa(5, 5);
+        double m5_0 = calcMa(7, 0);
+        double m5_1 = calcMa(7, 1);
+        double m5_2 = calcMa(7, 2);
+        double m5_3 = calcMa(7, 3);
+        double m5_4 = calcMa(7, 4);
+        double m5_5 = calcMa(7, 5);
 
         return (m5_0 < m5_1) &&
                 (m5_1 < m5_2) &&
