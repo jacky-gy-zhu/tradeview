@@ -67,8 +67,8 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
     	int p5 = 0; // 第一个脚
 		for(int i = 0; i < chartStocks.size()-1; i++) {
 			StockData stockData = chartStocks.get(i);
-			double ma = calcMa(5, i);
-			double _ma = calcMa(5, i+1);
+			double ma = calcMa(3, i);
+			double _ma = calcMa(3, i+1);
 
 			// 未开始
 			if (step == 0) {
