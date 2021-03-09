@@ -8,8 +8,11 @@ import java.util.List;
 
 public class HeaderFooterLowerCalculator extends AbstractCalculator {
 
-    public HeaderFooterLowerCalculator(StockData todayStock, List<StockData> chartStocks) {
+    private int maLookup;
+
+    public HeaderFooterLowerCalculator(StockData todayStock, List<StockData> chartStocks, int maLookup) {
         super(todayStock, chartStocks);
+        this.maLookup = maLookup;
     }
 
     public boolean match(StockResult stockResult) {
@@ -68,8 +71,8 @@ public class HeaderFooterLowerCalculator extends AbstractCalculator {
         int p5 = 0; // 第一个脚
         for(int i = 0; i < chartStocks.size()-1; i++) {
             StockData stockData = chartStocks.get(i);
-            double ma = calcMa(3, i);
-            double _ma = calcMa(3, i+1);
+            double ma = calcMa(maLookup, i);
+            double _ma = calcMa(maLookup, i+1);
 
             // 未开始
             if (step == 0) {
@@ -206,7 +209,7 @@ public class HeaderFooterLowerCalculator extends AbstractCalculator {
 
     @Override
     public String getName() {
-        return "头头低底底低";
+        return "头头低底底低 (MA"+maLookup+")";
     }
 
 }
