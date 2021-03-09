@@ -7,6 +7,12 @@ public class ThreeFooter {
     private int p2;
     private int p3;
 
+    private int a1;
+    private int a2;
+    private int a3;
+    private int a4;
+    private int a5;
+
     // 股价三个最低点的价格和相间隔的天数
     private double h1;
     private double h2;
@@ -94,5 +100,45 @@ public class ThreeFooter {
 
     public void setH2(double h2) {
         this.h2 = h2;
+    }
+
+    public int getA1() {
+        return a1;
+    }
+
+    public void setA1(int a1) {
+        this.a1 = a1;
+    }
+
+    public int getA2() {
+        return a2;
+    }
+
+    public void setA2(int a2) {
+        this.a2 = a2;
+    }
+
+    public int getA3() {
+        return a3;
+    }
+
+    public void setA3(int a3) {
+        this.a3 = a3;
+    }
+
+    public int getA4() {
+        return a4;
+    }
+
+    public void setA4(int a4) {
+        this.a4 = a4;
+    }
+
+    public int getA5() {
+        return a5;
+    }
+
+    public void setA5(int a5) {
+        this.a5 = a5;
     }
 }

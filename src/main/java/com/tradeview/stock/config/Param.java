@@ -69,8 +69,9 @@ public class Param {
 	public static float BEAR_DROP_BIG_DROP_MIN = 0.05f;
 	public static int BEAR_DROP_BIG_DROP_DAYS = 3;
 
-	// 做空
-	public static float SHORT_TIMES = 0.7f;
-	public static float SHORT_WAVE_MIN = 0.2f;
-	public static float SHORT_TODAY_BODY_MIN = 0.04f;
+	// N字底
+	public static float TWO_FOOTER_HIGH_LOW_WAVE_RATE = 0.3f;
+	public static int TWO_FOOTER_PERIOD_GAP_DAYS = 15;
+
+
 }
