@@ -133,6 +133,9 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 		int p3 = threeFooter.getP3();
 
 		StockPoint header1Obj = findHighByIndexRange(0, p2);
+		if (header1Obj.getIndex() == 0) {
+			return false;
+		}
 		StockPoint header2Obj = findHighByIndexRange(p2, p3);
 		double header1 = header1Obj.getPrice();
 		double header2 = header2Obj.getPrice();
