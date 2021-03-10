@@ -12,6 +12,8 @@ public class Constants {
     public static boolean only_read_local = false;
     public static boolean throw_if_error_and_print_url = false;
     public static boolean is_short = false;
+    public static boolean is_save = false;
+    public static boolean is_day_trade = false;
 
     public static String iextapis_token = "pk_8b34a5210db94eb3be6f3675277b3746";
 
@@ -22,6 +24,8 @@ public class Constants {
     public static String exclusionSmallVolPath = localDataRootPath + "/excludeSmallVolData.txt";
     public static String testPath = localDataRootPath + "/test.txt";
     public static String stockDataJsonFolder = localDataRootPath + "/json";
+    public static String dayTraderBullPath = localDataRootPath + "/dayTraderBull.txt";
+    public static String dayTraderBearPath = localDataRootPath + "/dayTraderBear.txt";
 
     public static SimpleDateFormat SDF = new SimpleDateFormat("MMMMM d, yyyy", new Locale("en", "AU"));
     public static SimpleDateFormat SDF2 = new SimpleDateFormat("yyyy-MM-dd");

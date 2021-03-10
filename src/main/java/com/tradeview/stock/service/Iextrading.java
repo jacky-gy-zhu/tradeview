@@ -151,18 +151,43 @@ public class Iextrading {
 
 	private void matchStrategies(Map<String, List<StockResult>> resultMap, String symbol, StockChart stockChart) {
 
-		if (Constants.is_short) {
-//			handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 5));
-			handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 3));
-			handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 2));
-//			handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 1));
+		if (Constants.is_day_trade) {
+
+			// 日内交易
+			if (Constants.is_short) {
+
+				if (Constants.is_save) {
+
+					handleResultMap(resultMap, symbol, stockChart, new DayTraderBearCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				} else {
+
+					handleResultMap(resultMap, symbol, stockChart, new DayTraderLiveBearCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				}
+			} else {
+
+				if (Constants.is_save) {
+
+					handleResultMap(resultMap, symbol, stockChart, new DayTraderBullCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				} else {
+
+					handleResultMap(resultMap, symbol, stockChart, new DayTraderLiveBullCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				}
+			}
 		} else {
+
+			if (Constants.is_short) {
+//			handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 5));
+				handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 3));
+				handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 2));
+//			handleResultMap(resultMap, symbol, stockChart, new HeaderFooterLowerCalculator(stockChart.getStockData(), stockChart.getChartStocks(), 1));
+			} else {
 //			handleResultMap(resultMap, symbol, stockChart, new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 //			handleResultMap(resultMap, symbol, stockChart, new BackToRaiseAndBreakTopCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
-			handleResultMap(resultMap, symbol, stockChart, new HeaderFooterHigherCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
-			handleResultMap(resultMap, symbol, stockChart, new NShaperBottomCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				handleResultMap(resultMap, symbol, stockChart, new HeaderFooterHigherCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				handleResultMap(resultMap, symbol, stockChart, new NShaperBottomCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 //			handleResultMap(resultMap, symbol, stockChart, new AbcCallbackCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 //			handleResultMap(resultMap, symbol, stockChart, new VbackCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+			}
 		}
 	}
 

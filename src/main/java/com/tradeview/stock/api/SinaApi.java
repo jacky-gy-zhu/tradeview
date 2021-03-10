@@ -12,6 +12,7 @@ import java.util.Map;
 public class SinaApi {
 
     // http://image.sinajs.cn/newchart/v5/usstock/daily/x.gif
+    // http://image.sinajs.cn/newchart/v5/usstock/min/x.gif
 
     // http://hq.sinajs.cn/list=gb_x
 
