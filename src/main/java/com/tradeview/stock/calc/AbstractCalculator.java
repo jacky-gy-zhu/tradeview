@@ -214,4 +214,13 @@ public abstract class AbstractCalculator implements Calculator {
         return new StockPoint(low, index);
     }
 
+    protected int calcAvgVol(int from, int to) {
+        int volTotal = 0;
+        for(int i = from; i < to; i++) {
+            StockData stockData = chartStocks.get(i);
+            volTotal += stockData.getVolume();
+        }
+        return volTotal / (to - from);
+    }
+
 }

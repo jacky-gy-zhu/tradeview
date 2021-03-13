@@ -13,25 +13,22 @@ public class DayTraderLiveBullCalculator extends AbstractCalculator {
 
     public boolean match(StockResult stockResult) {
         boolean result =
-				// 今日高开高走
+				// 今日高开
 				matchTodayK();
         return result;
     }
 
 	private boolean matchTodayK() {
-		double tclose = todayStock.getTclose();
 		double topen = todayStock.getTopen();
 		double yclose = chartStocks.get(0).getTclose();
 
 		return
-				(tclose > topen) &&
-				(topen > yclose) &&
-				(calcRedKRate(topen, tclose) > 0.007f);
+				(topen > yclose);
 	}
 
 	@Override
     public String getName() {
-        return "当日冲高开高走做多";
+        return "当冲高开做多";
     }
 
 }
