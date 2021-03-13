@@ -21,14 +21,14 @@ public class HeaderFooterLowerCalculator extends AbstractCalculator {
         boolean result =
                 // 今日收盘小于MA5，今日黑K，今日收盘小于昨日低点
                 matchTodayK() &&
-                        // MA3头头低底底低
-                        matchMA5HeaderFooterLower(threeFooter) &&
-                        // K线（高点和低点）头头低底底低
-                        matchHighLowHeaderFooterLower(threeFooter, riskManagement) &&
-                        // 前2次回调幅度差不多
-                        matchPeriodEven(threeFooter) &&
-                        // 高点和低点之间的震动幅度大
-                        matchHighLowWave(threeFooter);
+                // MA3头头低底底低
+                matchMA5HeaderFooterLower(threeFooter) &&
+                // K线（高点和低点）头头低底底低
+                matchHighLowHeaderFooterLower(threeFooter, riskManagement) &&
+                // 前2次回调幅度差不多
+                matchPeriodEven(threeFooter) &&
+                // 高点和低点之间的震动幅度大
+                matchHighLowWave(threeFooter);
         if (result) {
 //			stockResult.setPeriod(threeFooter.getPeriod1() + " ~ " + threeFooter.getPeriod2());
             stockResult.setPeriod(riskManagement.getDescription());
@@ -51,9 +51,9 @@ public class HeaderFooterLowerCalculator extends AbstractCalculator {
 
         return
                 (tclose < tMa5) &&
-                        (tclose < topen) &&
-                        (tclose < ylow) &&
-                        (ma20 < _ma20);
+                (tclose < topen) &&
+                (tclose <= ylow) &&
+                (ma20 < _ma20);
 //				(ylow < yMa5);
     }
 
@@ -202,12 +202,12 @@ public class HeaderFooterLowerCalculator extends AbstractCalculator {
 
         return
                 (calcRate(f2, h1) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
-                        (calcRate(f3, h2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
-                        (calcRate(f1, h1) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE2) &&
-                        (calcRate(h2, f2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE2) &&
-                        ((f1-h1)/(f2-h1) <= Param.GOLD_CUT_RATE) &&
-                        ((f2-h2)/(f3-h2) <= Param.GOLD_CUT_RATE2) &&
-                        ((period1 < Param.THREE_FOOTER_PERIOD_GAP_DAYS) && (period2 < Param.THREE_FOOTER_PERIOD_GAP_DAYS));
+//                (calcRate(f3, h2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
+                (calcRate(f1, h1) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE2) &&
+//                (calcRate(h2, f2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE2) &&
+                ((f1-h1)/(f2-h1) <= Param.GOLD_CUT_RATE) &&
+//                ((f2-h2)/(f3-h2) <= Param.GOLD_CUT_RATE2) &&
+                ((period1 < Param.THREE_FOOTER_PERIOD_GAP_DAYS) && (period2 < Param.THREE_FOOTER_PERIOD_GAP_DAYS));
     }
 
     @Override
