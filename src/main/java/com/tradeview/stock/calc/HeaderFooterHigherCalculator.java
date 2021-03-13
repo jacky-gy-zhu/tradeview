@@ -48,7 +48,7 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 		return
 				(tclose > tMa5) &&
 				(tclose > topen) &&
-				(tclose > yhigh) &&
+				(tclose >= yhigh) &&
 				(ma20 > _ma20);
 //				(ylow < yMa5);
 	}
@@ -198,11 +198,11 @@ public class HeaderFooterHigherCalculator extends AbstractCalculator {
 
     	return
 				(calcRate(h1, f2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
-				(calcRate(h2, f3) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
+//				(calcRate(h2, f3) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE) &&
 				(calcRate(h1, f1) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE2) &&
-				(calcRate(h2, f2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE2) &&
+//				(calcRate(h2, f2) > Param.THREE_FOOTER_HIGH_LOW_WAVE_RATE2) &&
 				((h1-f1)/(h1-f2) <= Param.GOLD_CUT_RATE) &&
-				((h2-f2)/(h2-f3) <= Param.GOLD_CUT_RATE2) &&
+//				((h2-f2)/(h2-f3) <= Param.GOLD_CUT_RATE2) &&
 				((period1 < Param.THREE_FOOTER_PERIOD_GAP_DAYS) && (period2 < Param.THREE_FOOTER_PERIOD_GAP_DAYS));
 	}
 
