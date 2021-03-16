@@ -21,9 +21,9 @@ public class NShaperBottomCalculator extends AbstractCalculator {
 				// K线（高点和低点）形成N字底
 				matchHighLowHeaderFooterHigher(threeFooter) &&
 				// 高点和低点之间的震动幅度大
-				matchHighLowWave(threeFooter) &&
+				matchHighLowWave(threeFooter);
 				// 回调时期有且只有3根连续黑K（实体部分大于1%)
-				matchBack3BlackK(threeFooter);
+//				matchBack3BlackK(threeFooter);
         return result;
     }
 
@@ -147,7 +147,7 @@ public class NShaperBottomCalculator extends AbstractCalculator {
 
 		boolean success =
 				(footer1 > footer2) &&
-				(header1 - footer1) * 2 < (header1 - footer2);
+				(header1 - footer1) * 2 <= (header1 - footer2);
 
 		return success;
 	}

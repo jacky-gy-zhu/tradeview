@@ -70,7 +70,7 @@ public class Param {
 	public static int BEAR_DROP_BIG_DROP_DAYS = 3;
 
 	// N字底
-	public static float TWO_FOOTER_HIGH_LOW_WAVE_RATE = 0.3f;
+	public static float TWO_FOOTER_HIGH_LOW_WAVE_RATE = 0.2f;
 	public static int TWO_FOOTER_PERIOD_GAP_DAYS = 15;
 
 
