@@ -135,8 +135,24 @@ public class BullTrendCalculator extends AbstractCalculator {
                 StockPoint s3 = stockPoints.get(i);
                 double price3 = s1.getPrice() - (((s3.getIndex()-s1.getIndex())*(s1.getPrice()-s2.getPrice()))/(s2.getIndex()-s1.getIndex()));
                 if (calcMarginPercentage(price3, s3.getPrice()) < 0.007 && s3.getIndex() < chartStocks.size()-1) {
-                    stockResult.setPeriod("["+s1.getIndex()+","+s1.getPrice()+"],["+s2.getIndex()+","+s2.getPrice()+"],["+s3.getIndex()+","+s3.getPrice()+"]");
-                    return true;
+                    // 之后的拐点不能低于趋势线
+                    boolean success = false;
+                    if (i < stockPoints.size() - 1) {
+                        for (int j = i + 1; j < stockPoints.size(); j++) {
+                            StockPoint s4 = stockPoints.get(j);
+                            if (isBelowPreviousLine(s1, s2, s4)) {
+                                success = false;
+                                break;
+                            }
+                        }
+                    } else {
+                        success = true;
+                    }
+
+                    if (success) {
+                        stockResult.setPeriod("["+s1.getIndex()+","+s1.getPrice()+"],["+s2.getIndex()+","+s2.getPrice()+"],["+s3.getIndex()+","+s3.getPrice()+"]");
+                        return true;
+                    }
                 } else if (price3 > s3.getPrice() && calcRedKRate(s3.getPrice(), price3) > 0.007) {
                     return false;
                 }
