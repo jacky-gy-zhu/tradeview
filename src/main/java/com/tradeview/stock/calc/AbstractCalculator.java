@@ -81,6 +81,21 @@ public abstract class AbstractCalculator implements Calculator {
         }
     }
 
+    protected double calcMa(int ma, int index, List<StockData> stocks) {
+        if (stocks != null && stocks.size() > (ma + index)) {
+            double total = 0;
+            for (int i = 0; i < ma; i++) {
+                int k = index + i;
+                if (k < stocks.size()) {
+                    total += stocks.get(k).getTclose();
+                }
+            }
+            return total / ma;
+        } else {
+            return 0;
+        }
+    }
+
     /**
      * 计算今日均线
      * @param ma
@@ -210,6 +225,24 @@ public abstract class AbstractCalculator implements Calculator {
         }
         if (index == 0) {
             low = chartStocks.get(from).getTlow();
+        }
+        return new StockPoint(low, index);
+    }
+
+    protected StockPoint findLowByIndexRange(int from, int to, List<StockData> stocks) {
+        double low = 999999;
+        int index = 0;
+        for(int i = from; i < to; i++) {
+            StockData stockData = stocks.get(i);
+            double tlow = stockData.getTlow();
+
+            if (tlow < low) {
+                low = tlow;
+                index = i;
+            }
+        }
+        if (index == 0) {
+            low = stocks.get(from).getTlow();
         }
         return new StockPoint(low, index);
     }

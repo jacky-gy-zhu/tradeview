@@ -53,15 +53,19 @@ public class BullTrendCalculator extends AbstractCalculator {
 
         boolean available = true;
 
-        for(int i = 0; i < chartStocks.size()-1; i++) {
-            double ma = calcMa(maV, i);
-            double _ma = calcMa(maV, i + 1);
+        List<StockData> copy = new ArrayList();
+        copy.add(todayStock);
+        copy.addAll(chartStocks);
+
+        for(int i = 0; i < copy.size()-1; i++) {
+            double ma = calcMa(maV, i, copy);
+            double _ma = calcMa(maV, i + 1, copy);
             if (ma <= _ma) {
                 // 前一个是向上，现在是向下，就是拐点（如果是第一次向下也认为是拐点）
                 if (available) {
                     int from = i > 0 ? i - 1 : i;
                     int to = i + 5;
-                    StockPoint lowPoint = findLowByIndexRange(from, to);
+                    StockPoint lowPoint = findLowByIndexRange(from, to, copy);
                     if (list.stream().map(StockPoint::getIndex)
                             .noneMatch(index -> (index == lowPoint.getIndex()) || (lowPoint.getIndex() - index < 10))) {
                         list.add(lowPoint);
