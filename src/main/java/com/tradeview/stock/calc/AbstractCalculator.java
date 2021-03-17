@@ -223,4 +223,9 @@ public abstract class AbstractCalculator implements Calculator {
         return volTotal / (to - from);
     }
 
+    protected double calcMarginPercentage(double p1, double p2) {
+        double margin = Math.abs(p1 - p2);
+        return margin/Math.max(p1, p2);
+    }
+
 }
