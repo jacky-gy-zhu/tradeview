@@ -101,7 +101,7 @@ public class BullTrendCalculator extends AbstractCalculator {
             list.add(zeroPoint);
             for (int i = 1; i < stockPoints.size(); i++) {
                 StockPoint thisPoint = stockPoints.get(i);
-                if (isThePercentageGreaterThan(thisPoint, zeroPoint, 20, 13)) {
+                if (isThePercentageGreaterThan(thisPoint, zeroPoint, 20, 12)) {
                     list.add(thisPoint);
                 }
             }
