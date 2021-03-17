@@ -16,7 +16,7 @@ public class BullTrendCalculator extends AbstractCalculator {
     public boolean match(StockResult stockResult) {
 
         // 1. 找出所有MA5多头拐点
-        List<StockPoint> stockPoints = findLowStockPointByMa5();
+        List<StockPoint> stockPoints = findLowStockPointByMa(5);
 
 		// 2. 以第一个MA5拐点为第一个移动起点，剔除价格大于移动起点的拐点(同时满足平均每20天上涨至少10%)
         stockPoints = filterStockPoints(stockPoints);
@@ -29,15 +29,22 @@ public class BullTrendCalculator extends AbstractCalculator {
         }
 
         // 4. 以S1，S3为基准，尝试是否可以找到第三个在一条趋势线上的S?
-        if (stockPoints.size() > 3) {
+        if (stockPoints.size() > 3 && isBelowPreviousLine(stockPoints.get(0), stockPoints.get(1), stockPoints.get(2))) {
             if (succeedToFind3rdPoint(stockPoints.get(0), stockPoints.get(2), stockPoints, 3, stockResult)) {
                 return true;
             }
         }
 
         // 5. 以S1，S4为基准，尝试是否可以找到第三个在一条趋势线上的S?
-        if (stockPoints.size() > 4) {
+        if (stockPoints.size() > 4 && isBelowPreviousLine(stockPoints.get(0), stockPoints.get(2), stockPoints.get(3))) {
             if (succeedToFind3rdPoint(stockPoints.get(0), stockPoints.get(3), stockPoints, 4, stockResult)) {
+                return true;
+            }
+        }
+
+        // 6. 以S1，S5为基准，尝试是否可以找到第三个在一条趋势线上的S?
+        if (stockPoints.size() > 5 && isBelowPreviousLine(stockPoints.get(0), stockPoints.get(3), stockPoints.get(4))) {
+            if (succeedToFind3rdPoint(stockPoints.get(0), stockPoints.get(4), stockPoints, 5, stockResult)) {
                 return true;
             }
         }
@@ -45,11 +52,14 @@ public class BullTrendCalculator extends AbstractCalculator {
         return false;
     }
 
-    private List<StockPoint> findLowStockPointByMa5() {
+    private boolean isBelowPreviousLine(StockPoint s1, StockPoint s2, StockPoint s3) {
+        double price3 = s1.getPrice() - (((s3.getIndex()-s1.getIndex())*(s1.getPrice()-s2.getPrice()))/(s2.getIndex()-s1.getIndex()));
+        return price3 > s3.getPrice();
+    }
+
+    private List<StockPoint> findLowStockPointByMa(int maV) {
 
         List<StockPoint> list = new ArrayList<>();
-
-        int maV = 5;
 
         boolean available = true;
 
@@ -63,11 +73,11 @@ public class BullTrendCalculator extends AbstractCalculator {
             if (ma <= _ma) {
                 // 前一个是向上，现在是向下，就是拐点（如果是第一次向下也认为是拐点）
                 if (available) {
-                    int from = i > 0 ? i - 1 : i;
-                    int to = i + 5;
+                    int from = i > maV ? i - maV : i;
+                    int to = i + maV;
                     StockPoint lowPoint = findLowByIndexRange(from, to, copy);
                     if (list.stream().map(StockPoint::getIndex)
-                            .noneMatch(index -> (index == lowPoint.getIndex()) || (lowPoint.getIndex() - index < 10))) {
+                            .noneMatch(index -> (index == lowPoint.getIndex()) || (lowPoint.getIndex() - index < 7))) {
                         list.add(lowPoint);
                     }
                     available = false;
@@ -91,7 +101,7 @@ public class BullTrendCalculator extends AbstractCalculator {
             list.add(zeroPoint);
             for (int i = 1; i < stockPoints.size(); i++) {
                 StockPoint thisPoint = stockPoints.get(i);
-                if (isThePercentageGreaterThan(thisPoint, zeroPoint, 20, 15)) {
+                if (isThePercentageGreaterThan(thisPoint, zeroPoint, 20, 13)) {
                     list.add(thisPoint);
                 }
             }
@@ -127,6 +137,8 @@ public class BullTrendCalculator extends AbstractCalculator {
                 if (calcMarginPercentage(price3, s3.getPrice()) < 0.007 && s3.getIndex() < chartStocks.size()-1) {
                     stockResult.setPeriod("["+s1.getIndex()+","+s1.getPrice()+"],["+s2.getIndex()+","+s2.getPrice()+"],["+s3.getIndex()+","+s3.getPrice()+"]");
                     return true;
+                } else if (price3 > s3.getPrice() && calcRedKRate(s3.getPrice(), price3) > 0.007) {
+                    return false;
                 }
             }
         }
