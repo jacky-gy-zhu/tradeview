@@ -151,6 +151,7 @@ public class BullTrendCalculator extends AbstractCalculator {
 
                     if (success) {
                         stockResult.setPeriod("["+s1.getIndex()+","+s1.getPrice()+"],["+s2.getIndex()+","+s2.getPrice()+"],["+s3.getIndex()+","+s3.getPrice()+"]");
+                        stockResult.setSort(s1.getIndex()*-1);
                         return true;
                     }
                 } else if (price3 > s3.getPrice() && calcRedKRate(s3.getPrice(), price3) > 0.007) {
