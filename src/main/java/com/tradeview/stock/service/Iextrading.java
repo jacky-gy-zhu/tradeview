@@ -183,9 +183,11 @@ public class Iextrading {
 			} else {
 //			handleResultMap(resultMap, symbol, stockChart, new HighVolBreakCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 //			handleResultMap(resultMap, symbol, stockChart, new BackToRaiseAndBreakTopCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
-				handleResultMap(resultMap, symbol, stockChart, new HeaderFooterHigherCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
-				handleResultMap(resultMap, symbol, stockChart, new NShaperBottomCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
-				handleResultMap(resultMap, symbol, stockChart, new BullTrendCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				if (Constants.only_read_local) {
+					handleResultMap(resultMap, symbol, stockChart, new HeaderFooterHigherCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+					handleResultMap(resultMap, symbol, stockChart, new NShaperBottomCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+					handleResultMap(resultMap, symbol, stockChart, new BullTrendCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
+				}
 				handleResultMap(resultMap, symbol, stockChart, new HighRiskDayTradeReviewCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 //			handleResultMap(resultMap, symbol, stockChart, new AbcCallbackCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
 //			handleResultMap(resultMap, symbol, stockChart, new VbackCalculator(stockChart.getStockData(), stockChart.getChartStocks()));
